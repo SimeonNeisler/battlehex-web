@@ -1,0 +1,57 @@
+body {
+  background-color: #232323;
+  margin: 0;
+  font-family: "Montserrat", "Avenir";
+  /*align-content: space-around;*/
+}
+
+#board {
+  margin-top: 10%;
+  margin-left: 20%;
+  max-width: 70%;
+}
+
+.square {
+  text-align: center;
+  width: 14%;
+  background: white;
+  padding-bottom: 11%;
+  margin: 1.5%;
+  float: left;
+  display: block;
+  white-space: pre;
+}
+
+.player {
+  text-align: left;
+  width: 15%;
+  background-color: white;
+  padding-bottom: 5%;
+  margin-top: 0%;
+}
+
+#P1 {
+  float: left;
+  margin-left: 20px;
+}
+
+#P2 {
+  float: right;
+  margin-right: 20px;
+}
+
+#P3 {
+  clear: left;
+  float: left;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+#P4 {
+  float: right;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+/*.row {
+  clear: both;
+}*/
