@@ -1,13 +1,21 @@
-var express = require("express");
-var app = express();
 var bodyParser = require("body-parser");
+var express = require("express");
+var firebase = require("firebase");
+var app = express();
+
+var config = {
+  apiKey : "AIzaSyBzxM1cmlN18AvVIE9SrBVIihn4O5vM8Zg",
+  authDomain: "battlehex-web.firebaseapp.com",
+  databaseURL: "https://battlehex-web.firebaseio.com/",
+  storageBucket: "gs://battlehex-web.appspot.com/"
+}
 
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.render("menu");
+  res.render("home");
 });
 
 app.post("/shop", (req, res) => {
