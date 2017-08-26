@@ -2,9 +2,24 @@ h2 {
   text-align: center;
 }
 
-
+.container {
+  text-align: center;
+  vertical-align: middle;
+}
+.text {
+  margin-top: 5%;
+}
 .card {
-  width: 20%;
-  margin: 3% 3%;
-  background-color: #232323;
+  text-align: center;
+  width: 21%;
+  background: #232323;
+  padding-bottom: 21%;
+  margin: 2%;
+  display: inline-block;
+  white-space: pre;
+  border: 3px solid #AAAAAA;
+  border-radius: 15%;
+}
+a{
+  vertical-align: middle;
 }

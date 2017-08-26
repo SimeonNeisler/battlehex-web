@@ -1,0 +1,21 @@
+<% include partials/header.ejs %>
+<link rel="stylesheet" href="/css/newCard.css">
+<div class="container">
+  <h4>Create a New Card</h4>
+  <form class="" action="/store" method="post">
+    <input class="form-control" type="text" name="type" placeholder="Type">
+    <input class="form-control" type="text" name="class" placeholder="Class">
+    <input class="form-control" type="number" name="price"  placeholder="Price" min="0.01" step="0.01">
+    <input class="form-control" type="text" name="name" placeholder="Name" required>
+    <input class="form-control" type="number" name="strength" placeholder="Strength">
+    <input class="form-control" type="number" name="hitpoints" placeholder="HitPoints">
+    <input class="form-control" type="number" name="range" placeholder="Range">
+    <input class="form-control" type="number" name="moves" placeholder="Moves">
+    <input class="form-control" type="number" name="cost" placeholder="Cost(Points)">
+    <input class="form-control" type="text" name="abilities" placeholder="Abilities">
+    <input class="form-control" type="text" name="image"  placeholder="Artwork Ref">
+    <button class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<% include partials/footer.ejs %>
