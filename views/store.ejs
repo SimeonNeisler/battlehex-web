@@ -1,7 +1,25 @@
 <% include partials/header %>
-<h2>Store</h2>
+<link rel="stylesheet" href="/css/store.css">
+<div class="container">
 
-
+  <button class="dropbtn">Units</button>
+  <div class="row text-center dropdown">
+    <div class="drop-content">
+    <% for(var key in units) { %>
+      <% if(!units.hasOwnProperty(key)) continue; %>
+      <% var unit = units[key] %>
+        <div class="card">
+          <h5><%= unit.name %></h5>
+          <p>Strength: <%= unit.strength %></p>
+          <p>HP: <%= unit.hitpoints %></p>
+          <p>Range: <%= unit.range %></p>
+          <p>Movement: <%= unit.moves %></p>
+          <p>abilities: <%= unit.abilities %></p>
+        </div>
+    <% } %>
+    </div>  
+  </div>
+</div>
 
 
 <% include partials/footer %>

@@ -48,18 +48,25 @@ app.get("/landing", (req, res) => {
 
 //Store Page
 app.get("/store", (req, res) => {
-  return database.ref('/cards/')
-  res.render("store", {cards: cards});
+  return database.ref('/cards').once('value').then((snapshot) => {
+    var cards = snapshot.val();
+    res.render("store", {
+      units: cards.Unit,
+      upgrades: cards.Upgrade,
+      insta: cards.Insta
+    });
+  });
 });
 
 //Dev screen to create new cards
 app.get("/store/new", (req, res) => {
   res.render("newCard");
-})
+});
+
 
 //Adds new card to the store
 app.post("/store", (req, res) => {
-  database.ref('cards/' + req.body.name).set({
+  database.ref('cards/' + req.body.type).push().set({
     type: req.body.type,
     name: req.body.name,
     class: req.body.class,
@@ -78,7 +85,7 @@ app.post("/store", (req, res) => {
     } else {
       console.log("success");
       //req.flash("Success", "New Card Added");
-      res.redirect("/store");
+      res.redirect("/store/new");
     }
   });
 });

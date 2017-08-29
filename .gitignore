@@ -1,2 +1,4 @@
 #ignore node_modules
 node_modules/*
+#ignore data classes for now
+src/data/*
