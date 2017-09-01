@@ -1,25 +1,31 @@
 <% include partials/header %>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/css/store.css">
 <div class="container">
-
-  <button class="dropbtn">Units</button>
+<script src="/js/store.js"></script>
+  <button id="unitButton" class="dropbtn">Units<span class="glyphicon glyphicon-menu-right rotate" aria-hidden="true"></span></button>
   <div class="row text-center dropdown">
-    <div class="drop-content">
+    <div id="unitContent"class="drop-content closed">
     <% for(var key in units) { %>
       <% if(!units.hasOwnProperty(key)) continue; %>
       <% var unit = units[key] %>
         <div class="card">
-          <h5><%= unit.name %></h5>
-          <p>Strength: <%= unit.strength %></p>
-          <p>HP: <%= unit.hitpoints %></p>
-          <p>Range: <%= unit.range %></p>
-          <p>Movement: <%= unit.moves %></p>
-          <p>abilities: <%= unit.abilities %></p>
+          <div class="name">
+            <h5><%= unit.name %></h5>
+          </div>
+          <div class="stats">
+            <li>Strength: <%= unit.strength %></li>
+            <li>HP: <%= unit.hitpoints %></li>
+            <li>Range: <%= unit.range %></li>
+            <li>Movement: <%= unit.moves %></li>
+            <li>abilities: <%= unit.abilities %></li>
+          </div>
+          <div class="price">
+            <p>$<%= unit.price %></p>
+          </div>
         </div>
     <% } %>
-    </div>  
+    </div>
   </div>
 </div>
-
-
 <% include partials/footer %>
