@@ -5,7 +5,7 @@
 <script src="/js/store.js"></script>
   <button id="unitButton" class="dropbtn">Units<span class="glyphicon glyphicon-menu-right rotate" aria-hidden="true"></span></button>
   <div class="row text-center dropdown">
-    <div id="unitContent"class="drop-content closed">
+    <div id="unitCards" class="drop-content closed">
     <% for(var key in units) { %>
       <% if(!units.hasOwnProperty(key)) continue; %>
       <% var unit = units[key] %>
@@ -19,9 +19,40 @@
             <li>Range: <%= unit.range %></li>
             <li>Movement: <%= unit.moves %></li>
             <li>abilities: <%= unit.abilities %></li>
+            <li>Cost: <%= unit.cost %></li>
           </div>
           <div class="price">
             <p>$<%= unit.price %></p>
+          </div>
+          <div class="options">
+            <button class="btn btn-info btn-sm" type="button" name="button">Info</button>
+            <button class="btn btn-success btn-sm" type="button" name="button">Add to Cart</button>
+          </div>
+        </div>
+    <% } %>
+    </div>
+  </div>
+  <button id="instaButton" class="dropbtn">Instant Damage Cards<span class="glyphicon glyphicon-menu-right rotate" aria-hidden="true"></span></button>
+  <div class="row text-center dropdown">
+    <div id="instaCards" class="drop-content closed">
+    <% for(var key in insta) { %>
+      <% if(!insta.hasOwnProperty(key)) continue; %>
+      <% var instaCard = insta[key] %>
+        <div class="card">
+          <div class="name">
+            <h5><%= instaCard.name %></h5>
+          </div>
+          <div class="stats">
+            <li>Strength: <%= instaCard.strength %></li>
+            <li>Area of Effect: <%= instaCard.range %></li>
+            <li>Cost: <%= isntaCard.cost %></li>
+          </div>
+          <div class="price">
+            <p>$<%= instaCard.price %></p>
+          </div>
+          <div class="options">
+            <button class="btn btn-info btn-sm" type="button" name="button">Info</button>
+            <button class="btn btn-success btn-sm" type="button" name="button">Add to Cart</button>
           </div>
         </div>
     <% } %>

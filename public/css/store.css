@@ -13,6 +13,7 @@
   border-radius: 15%;
   height: 400px;
   max-height: 400px;
+  position: relative;
 }
 
 .name {
@@ -51,12 +52,19 @@
   transform: translate(-50%, -50%);
 }
 
+.options {
+  white-space: nowrap;
+  text-align: center;
+}
+
+.btn-sm {
+  margin: 5px;
+}
+
 .dropbtn {
+  margin: 20px;
   font-size: 1.5em;
   text-align: left;
-  width: 75%;
-  height: 35px;
-  line-height: 35px;
 }
 
 .drop-content {
@@ -74,18 +82,17 @@
 }
 
 .glyphicon-menu-right {
-  float: right;
-  line-height: 25px;
+  display: inline-block;
   font-size: 0.7em;
 }
 
-.rotate{
+.rotate {
     -moz-transition: all 0.2s linear;
     -webkit-transition: all 0.2s linear;
     transition: all 0.2s linear;
 }
 
-.rotate.down{
+.rotate.down {
     -ms-transform:rotate(90deg);
     -moz-transform:rotate(90deg);
     -webkit-transform:rotate(90deg);

@@ -103,6 +103,8 @@ app.post("/newGame", (req, res) => {
   res.redirect("/createGame");
 });
 
-app.listen(3000, process.env.IP, () => {
+var port = process.env.PORT || 3000;
+
+app.listen(port, process.env.IP, () => {
   console.log("Server uplink established");
 });
