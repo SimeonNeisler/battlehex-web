@@ -4,6 +4,8 @@
   "description": "Battlehex for web",
   "main": "app.js",
   "scripts": {
+    "build": "babel server --out-dir build --presets=es2015 && webpack",
+    "start": "babel-node app.js --presets es2015,stage-2",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +25,11 @@
     "express": "^4.15.4",
     "firebase": "^4.2.0",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1"
   }
 }

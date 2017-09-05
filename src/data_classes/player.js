@@ -1,12 +1,12 @@
 export default class player {
-  constructor(userName, color, income, resources) {
-    this.userName = userName;
+  constructor(userId, color, income, resources) {
+    this.userId = userId;
     this.color = color;
     this.income = income;
     this.resources = resources;
   }
   getUserName() {
-    return this.userName;
+    return this.userId;
   }
   getColor() {
     return this.color;

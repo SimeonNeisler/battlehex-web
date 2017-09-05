@@ -5,6 +5,7 @@ var bodyParser = require("body-parser"),
     path       = require("path");
 
 var app = express();
+var unitCard = require('./src/data_classes/unitCard');
 
 //Config settings for database
 var config = {
