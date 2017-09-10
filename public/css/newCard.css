@@ -7,6 +7,10 @@ form {
   text-align: center;
 }
 
+#CardType {
+  margin-left: 5px;
+}
+
 input {
   margin: 5px;
   display: inline-block;

@@ -1,0 +1,43 @@
+[debug] [2017-09-07T01:36:34.119Z] ----------------------------------------------------------------------
+[debug] [2017-09-07T01:36:34.121Z] Command:       /usr/local/Cellar/node/5.10.1/bin/node /usr/local/bin/firebase serve
+[debug] [2017-09-07T01:36:34.122Z] CLI Version:   3.10.0
+[debug] [2017-09-07T01:36:34.122Z] Platform:      darwin
+[debug] [2017-09-07T01:36:34.122Z] Node Version:  v8.4.0
+[debug] [2017-09-07T01:36:34.122Z] Time:          Wed Sep 06 2017 21:36:34 GMT-0400 (EDT)
+[debug] [2017-09-07T01:36:34.123Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-09-07T01:36:34.136Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-09-07T01:36:34.136Z] > authorizing via signed-in user
+[debug] [2017-09-07T01:36:34.138Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-09-07T01:36:34.138Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/HkeEItaaBJRpPDiWB1geKZi9AbMJYobfl4cxqa4-qDw',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Wed Sep 06 2017 21:36:34 GMT-0400 (EDT)
+[debug] [2017-09-07T01:36:34.308Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-07T01:36:34.320Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/battlehex-web  
+ Wed Sep 06 2017 21:36:34 GMT-0400 (EDT)
+[debug] [2017-09-07T01:36:34.722Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-07T01:36:34.722Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/battlehex-web/tokens  
+ Wed Sep 06 2017 21:36:34 GMT-0400 (EDT)
+[debug] [2017-09-07T01:36:35.326Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/simeonneisler/Sites/simeonneisler/battlehex-web'...
+[info] 
+[debug] [2017-09-07T01:36:35.329Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/battlehex-web  
+ Wed Sep 06 2017 21:36:35 GMT-0400 (EDT)
+[debug] [2017-09-07T01:36:35.627Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-07T01:36:35.627Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/701267753318/clients/_:getWebAppConfig  
+ Wed Sep 06 2017 21:36:35 GMT-0400 (EDT)
+[debug] [2017-09-07T01:36:36.247Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-07T01:36:36.262Z] TypeError: Cannot read property 'public' of undefined
+    at Server.<anonymous> (/usr/local/lib/node_modules/firebase-tools/lib/serve/hosting.js:34:17)
+    at Object.onceWrapper (events.js:314:30)
+    at emitNone (events.js:105:13)
+    at Server.emit (events.js:207:7)
+    at emitListeningNT (net.js:1349:10)
+    at _combinedTickCallback (internal/process/next_tick.js:135:11)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+[error] 
+[error] Error: An unexpected error has occurred.

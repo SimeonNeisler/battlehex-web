@@ -1,5 +1,4 @@
 <% include partials/header %>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/css/store.css">
 <div class="container">
 <script src="/js/store.js"></script>
@@ -18,7 +17,9 @@
             <li>HP: <%= unit.hitpoints %></li>
             <li>Range: <%= unit.range %></li>
             <li>Movement: <%= unit.moves %></li>
-            <li>abilities: <%= unit.abilities %></li>
+            <% if(unit.abilities.length >=1) { %>
+            <li>abilities: <%= unit.abilities.join() %></li>
+            <% } %>
             <li>Cost: <%= unit.cost %></li>
           </div>
           <div class="price">

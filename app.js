@@ -4,19 +4,23 @@ var bodyParser = require("body-parser"),
     flash      = require("connect-flash"),
     path       = require("path");
 
+
 var app = express();
-var unitCard = require('./src/data_classes/unitCard');
+
+
 
 //Config settings for database
 var config = {
   apiKey : "AIzaSyBzxM1cmlN18AvVIE9SrBVIihn4O5vM8Zg",
   authDomain: "battlehex-web.firebaseapp.com",
   databaseURL: "https://battlehex-web.firebaseio.com/",
-  storageBucket: "gs://battlehex-web.appspot.com/"
+  projectId: "battlehex-web",
+  storageBucket: "gs://battlehex-web.appspot.com/",
+  messagingSenderId: "701267753318"
 }
 
 //Declare + initialize Database
-firebase.initializeApp(config);
+var firebaseApp = firebase.initializeApp(config);
 var database = firebase.database();
 
 //app.use(flash());
@@ -32,6 +36,19 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 app.set("view engine", "ejs");
 
+//=====================
+//MiddleWare
+//=====================
+var middleWare = {
+  isLoggedIn: function(req, res, next) {
+    if(firebase.auth().currentUser) {
+      return next();
+    } else {
+    console.log("Error: Must log in");
+    res.redirect("/");
+    }
+  }
+}
 
 //=======================
 //ROUTES
@@ -39,16 +56,62 @@ app.set("view engine", "ejs");
 
 //Login Page
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("login");
+});
+
+app.post("/login", (req, res) => {
+  firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
+    if(err) {
+      console.log(err);
+      res.redirect("/");
+    }
+  });
+  res.redirect("/landing");
+});
+
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+app.post("/register", (req, res) => {
+  var promise = new Promise((resolve, reject) => {
+    firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log("Account created");
+      }
+    });
+    if(firebase.auth().currentUser) {
+      database.ref('users/' + firebase.auth().currentUser.uid).set({
+        email: req.body.email,
+        username: req.body.username
+      });
+      res.redirect("/landing");
+    } else if(reject) {
+      console.log("Something went wrong");
+      res.redirect("/");
+    }
+  })
+});
+
+app.get("/signout", (req, res) => {
+  console.log(firebase.auth().currentUser.uid);
+  firebase.auth().signOut().then(() => {
+    console.log("Signout successful");
+  }).catch((err) => {
+    console.log(err);
+  });
+  res.render("login");
 });
 
 //Home Page
-app.get("/landing", (req, res) => {
+app.get("/landing", middleWare.isLoggedIn, (req, res) => {
   res.render("landing");
 });
 
 //Store Page
-app.get("/store", (req, res) => {
+app.get("/store", middleWare.isLoggedIn, (req, res) => {
   return database.ref('/cards').once('value').then((snapshot) => {
     var cards = snapshot.val();
     res.render("store", {
@@ -67,6 +130,7 @@ app.get("/store/new", (req, res) => {
 
 //Adds new card to the store
 app.post("/store", (req, res) => {
+  var abilitiesArr = req.body.abilities.split();
   database.ref('cards/' + req.body.type).push().set({
     type: req.body.type,
     name: req.body.name,
@@ -75,7 +139,8 @@ app.post("/store", (req, res) => {
     hitpoints: req.body.hitpoints,
     range: req.body.range,
     moves: req.body.moves,
-    abilities: req.body.abilities,
+    abilities: abilitiesArr,
+    description: req.body.description,
     cost: req.body.cost,
     price: req.body.price,
     image: req.body.image
@@ -92,15 +157,15 @@ app.post("/store", (req, res) => {
 });
 
 
-app.get("/store/:product", (req, res) => {
+app.get("/store/:product", middleWare.isLoggedIn, (req, res) => {
   res.render("product");
 });
 
-app.get("/createGame", (req, res) => {
+app.get("/createGame", middleWare.isLoggedIn, (req, res) => {
   res.render("newGame");
 });
 
-app.post("/newGame", (req, res) => {
+app.post("/newGame", middleWare.isLoggedIn, (req, res) => {
   res.redirect("/createGame");
 });
 

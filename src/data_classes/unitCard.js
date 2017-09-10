@@ -1,11 +1,11 @@
 import storeCard from './storeCard.js';
 
-class unitCard extends storeCard {
-  constructor(name, type, deployCost, storePrice, unitClass, strength, hitpoints, moves, range, abilities) {
-    super(name, type, deployCost, storePrice);
+export default class unitCard extends storeCard {
+  constructor(name, type, deployCost, storePrice, unitClass, strength, hitpoints, moves, range, abilities, image) {
+    super(name, type, deployCost, storePrice, image);
     this.unitClass = unitClass;
     this.strength = strength;
-    this.hitpoints = hipoints;
+    this.hitpoints = hitpoints;
     this.moves = moves;
     this.range = range;
     this.abilities = abilities;

@@ -1,19 +1,34 @@
 <% include partials/header.ejs %>
 <link rel="stylesheet" href="/css/newCard.css">
+
+<script type="text/javascript" src="/js/newCard.js">
+
+</script>
 <div class="container">
   <h4>Create a New Card</h4>
   <form class="" action="/store" method="post">
-    <input class="form-control" type="text" name="type" placeholder="Type" required>
-    <input class="form-control" type="text" name="unitClass" placeholder="Class">
-    <input class="form-control" type="number" name="price"  placeholder="Price" min="0.01" step="0.01">
-    <input class="form-control" type="text" name="name" placeholder="Name" required>
-    <input class="form-control" type="number" name="strength" placeholder="Strength">
-    <input class="form-control" type="number" name="hitpoints" placeholder="HitPoints">
-    <input class="form-control" type="number" name="range" placeholder="Range">
-    <input class="form-control" type="number" name="moves" placeholder="Moves">
-    <input class="form-control" type="number" name="cost" placeholder="Cost(Points)">
-    <input class="form-control" type="text" name="abilities" placeholder="Abilities">
+    <!-- These attributes are universal across all cards -->
+    <input class="form-control" type="text" name="name"   placeholder="Name" required>
+    <select id="CardType" class="form-control" name="type">
+      <option value="unit">Unit</option>
+      <option value="instant">Instant Damage</option>
+      <option value="upgrade">Upgrade</option>
+      <option value="ability">Ability</option>
+    </select>
+    <input class="form-control" type="number" name="deployCost" placeholder="Deploy Cost">
+    <input class="form-control" type="number" name="storePrice"  placeholder="Store Price" min="0.01" step="0.01">
+    <input class="form-control" type="text" name="description" placeholder="Description">
     <input class="form-control" type="text" name="image"  placeholder="Artwork Ref">
+    <!-- Unit, Upgrade, and Instant Cards Only -->
+    <input class="form-control variable unit upgrade instant" type="number" name="strength" placeholder="Strength" disabled>
+    <!-- Unit and Upgrade Cards Only -->
+    <input class="form-control variable unit upgrade" type="number" name="hitpoints" placeholder="HitPoints" disabled>
+    <input class="form-control variable unit upgrade" type="number" name="range" placeholder="Range" disabled>
+    <input class="form-control variable unit upgrade" type="number" name="moves" placeholder="Moves" disabled>
+    <input class="form-control variable unit upgrade" type="text" name="unitClass" placeholder="Class" disabled>
+    <input class="form-control variable unit upgrade" type="text" name="abilities" placeholder="Abilities" disabled>
+    <!-- Instant Cards Only -->
+    <input class="form-control variable instant" type="number" name="Area" placeholder="Area Of Effect" disabled>
     <button class="btn btn-primary">Submit</button>
   </form>
 </div>
