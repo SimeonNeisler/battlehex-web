@@ -74,29 +74,25 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  var promise = new Promise((resolve, reject) => {
     firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
       if(err) {
         console.log(err);
+        res.redirect("/");
       } else {
-        console.log("Account created");
+        console.log("Account Created");
+      }
+    }).then(() => {
+      if(firebase.auth().currentUser) {
+        database.ref('users/' + firebase.auth().currentUser.uid).set({
+          username: req.body.username
+        });
+        res.redirect("/landing");
       }
     });
-    if(firebase.auth().currentUser) {
-      database.ref('users/' + firebase.auth().currentUser.uid).set({
-        email: req.body.email,
-        username: req.body.username
-      });
-      res.redirect("/landing");
-    } else if(reject) {
-      console.log("Something went wrong");
-      res.redirect("/");
-    }
-  })
-});
+  });
+
 
 app.get("/signout", (req, res) => {
-  console.log(firebase.auth().currentUser.uid);
   firebase.auth().signOut().then(() => {
     console.log("Signout successful");
   }).catch((err) => {
