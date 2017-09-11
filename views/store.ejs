@@ -11,6 +11,7 @@
         <div class="card">
           <div class="name">
             <h5><%= unit.name %></h5>
+            <p><%= unit.unitClass %></p>
           </div>
           <div class="stats">
             <li>Strength: <%= unit.strength %></li>
@@ -18,7 +19,7 @@
             <li>Range: <%= unit.range %></li>
             <li>Movement: <%= unit.moves %></li>
             <% if(unit.abilities.length >=1) { %>
-            <li>abilities: <%= unit.abilities.join() %></li>
+            <li>abilities: <%= unit.abilities.join(', ') %></li>
             <% } %>
             <li>Cost: <%= unit.cost %></li>
           </div>
@@ -26,8 +27,8 @@
             <p>$<%= unit.price %></p>
           </div>
           <div class="options">
-            <a href="/store/<%=key%>"><button class="btn btn-info btn-sm" type="button" name="button">Info</button></a>
-            <button class="btn btn-success btn-sm" type="button" name="button">Add to Cart</button>
+            <a href="/store/<%=key%>"><button class="btn btn-info btn-sm info" type="button" name="button">Info</button></a>
+            <button class="btn btn-success btn-sm purchase" type="button" name="button">Add to Cart</button>
           </div>
         </div>
     <% } %>

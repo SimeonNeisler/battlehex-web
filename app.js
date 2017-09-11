@@ -65,8 +65,9 @@ app.post("/login", (req, res) => {
       console.log(err);
       res.redirect("/");
     }
+  }).then(() => {
+    res.redirect("/landing");
   });
-  res.redirect("/landing");
 });
 
 app.get("/register", (req, res) => {
@@ -111,9 +112,9 @@ app.get("/store", middleWare.isLoggedIn, (req, res) => {
   return database.ref('/cards').once('value').then((snapshot) => {
     var cards = snapshot.val();
     res.render("store", {
-      units: cards.Unit,
-      upgrades: cards.Upgrade,
-      insta: cards.Insta
+      units: cards.unit,
+      upgrades: cards.upgrade,
+      insta: cards.insta
     });
   });
 });
@@ -126,19 +127,19 @@ app.get("/store/new", (req, res) => {
 
 //Adds new card to the store
 app.post("/store", (req, res) => {
-  var abilitiesArr = req.body.abilities.split();
+  var abilitiesArr = req.body.abilities.split(' ');
   database.ref('cards/' + req.body.type).push().set({
     type: req.body.type,
     name: req.body.name,
-    class: req.body.class,
+    unitClass: req.body.unitClass,
     strength: req.body.strength,
     hitpoints: req.body.hitpoints,
     range: req.body.range,
     moves: req.body.moves,
     abilities: abilitiesArr,
     description: req.body.description,
-    cost: req.body.cost,
-    price: req.body.price,
+    cost: req.body.deployCost,
+    price: req.body.storePrice,
     image: req.body.image
   }, (err) => {
     if(err) {
