@@ -38,6 +38,7 @@ app.use((req, res, next) => {
   next();
 });
 
+
 app.set("view engine", "ejs");
 
 //=====================
@@ -232,11 +233,27 @@ app.post("/store", (req, res) => {
 });
 
 app.get("/store/checkout", middleWare.isLoggedIn, (req, res) => {
-  res.render("checkout");
+  var uid = firebase.auth().currentUser.uid;
+  return database.ref('users/' + uid + '/cart').once('value').then((snapshot) => {
+    var userCart = snapshot.val();
+    res.render("checkout", {
+      cart: userCart
+    });
+  });
 });
 
 app.post("/store/checkout", (req, res) => {
-
+  var uid = firebase.auth().currentUser.uid;
+  database.ref('users/' +  uid + '/cart').push().set({
+    newCard: card
+  }, (err) => {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log("Card successfully added!");
+      res.redirect("/store/cart");
+    }
+  });
 });
 
 app.get("/store/:product", middleWare.isLoggedIn, (req, res) => {
