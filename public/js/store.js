@@ -11,4 +11,8 @@ $(document).ready(() => {
     $("#upgradeCards").toggleClass('closed');
     $("#upgradeButton .rotate").toggleClass('down');
   });
+  $("#abilityButton").click(() => {
+    $("#abilityButton").toggleClass('closed');
+    $("#abilityButton .rotate").toggleClass('down');
+  });
 });

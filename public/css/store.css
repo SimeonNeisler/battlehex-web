@@ -1,3 +1,7 @@
+.container {
+  height: 100%;
+}
+
 .row .text-center {
   display: flex;
   flex-wrap: wrap;
@@ -17,7 +21,7 @@
 }
 
 .name {
-  height: 20px;
+  height: 40px;
   color: aliceblue;
   position: relative;
 }
@@ -25,6 +29,13 @@
 .name h5 {
   position: absolute;
   top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.name p {
+  position: absolute;
+  top: 120%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -69,7 +80,7 @@
 
 .drop-content {
   overflow-x: scroll;
-  overflow-y: hidden;
+  overflow-y: scroll;
   white-space: normal;
   max-height: 500px;
   transition-property: all;

@@ -33,6 +33,10 @@ app.use(express.static(path.join(__dirname, "/public")));
   next();
 });*/
 
+app.use((req, res, next) => {
+  res.locals.currentUser = firebase.auth().currentUser;
+  next();
+});
 
 app.set("view engine", "ejs");
 
@@ -49,6 +53,8 @@ var middleWare = {
     }
   }
 }
+
+
 
 //=======================
 //ROUTES
@@ -84,8 +90,14 @@ app.post("/register", (req, res) => {
       }
     }).then(() => {
       if(firebase.auth().currentUser) {
-        database.ref('users/' + firebase.auth().currentUser.uid).set({
-          username: req.body.username
+        firebase.auth().currentUser.updateProfile({
+          displayName: req.body.username
+        }).then(() => {
+          database.ref('users/' + firebase.auth().currentUser.uid).set({
+            displayName: req.body.username
+          });
+        }).catch((err) => {
+          console.log(err);
         });
         res.redirect("/landing");
       }
@@ -113,8 +125,9 @@ app.get("/store", middleWare.isLoggedIn, (req, res) => {
     var cards = snapshot.val();
     res.render("store", {
       units: cards.unit,
+      insta: cards.instant,
       upgrades: cards.upgrade,
-      insta: cards.insta
+      abilities: cards.abilities
     });
   });
 });
@@ -127,36 +140,109 @@ app.get("/store/new", (req, res) => {
 
 //Adds new card to the store
 app.post("/store", (req, res) => {
-  var abilitiesArr = req.body.abilities.split(' ');
-  database.ref('cards/' + req.body.type).push().set({
-    type: req.body.type,
-    name: req.body.name,
-    unitClass: req.body.unitClass,
-    strength: req.body.strength,
-    hitpoints: req.body.hitpoints,
-    range: req.body.range,
-    moves: req.body.moves,
-    abilities: abilitiesArr,
-    description: req.body.description,
-    cost: req.body.deployCost,
-    price: req.body.storePrice,
-    image: req.body.image
-  }, (err) => {
-    if(err) {
-      console.log(err);
-      //req.flash("error", "Something went wrong");
-    } else {
-      console.log("success");
-      //req.flash("Success", "New Card Added");
-      res.redirect("/store/new");
-    }
-  });
+  if(req.body.abilities != null) {
+    var abilitiesArr = req.body.abilities.split(' ');
+  } else {
+    var abilitiesArr = null;
+  }
+  switch(req.body.type) {
+    case "unit":
+      database.ref('cards/' + req.body.type).push().set({
+          type: req.body.type,
+          name: req.body.name,
+          unitClass: req.body.unitClass,
+          strength: req.body.strength,
+          hitpoints: req.body.hitpoints,
+          range: req.body.range,
+          moves: req.body.moves,
+          abilities: abilitiesArr,
+          description: req.body.description,
+          cost: req.body.deployCost,
+          price: req.body.storePrice,
+          image: req.body.image
+      }, (err) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log("New Card created");
+          res.redirect("/store");
+        }
+      });
+    break;
+    case "instant":
+      database.ref('cards/' + req.body.type).push().set({
+            type: req.body.type,
+            name: req.body.name,
+            strength: req.body.strength,
+            description: req.body.description,
+            cost: req.body.deployCost,
+            price: req.body.storePrice,
+            image: req.body.image,
+            area: req.body.area
+      }, (err) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log("New Card created");
+          res.redirect("/store");
+        }
+      });
+    break;
+    case "upgrade":
+      database.ref('cards/' + req.body.type).push().set({
+          type: req.body.type,
+          name: req.body.name,
+          unitClass: req.body.unitClass,
+          strength: req.body.strength,
+          hitpoints: req.body.hitpoints,
+          range: req.body.range,
+          moves: req.body.moves,
+          abilities: abilitiesArr,
+          description: req.body.description,
+          cost: req.body.deployCost,
+          price: req.body.storePrice,
+          image: req.body.image
+      }, (err) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log("New Card created");
+          res.redirect("/store");
+        }
+      });
+    break;
+    case "ability":
+      database.ref('cards/' + req.body.type).push().set({
+        type: req.body.type,
+        name: req.body.name,
+        description: req.body.description,
+        cost: req.body.cost,
+        price: req.body.price,
+        image: req.body.image
+      }, (err) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log("New Card created");
+          res.redirect("/store");
+        }
+      });
+    break;
+  }
 });
 
+app.get("/store/checkout", middleWare.isLoggedIn, (req, res) => {
+  res.render("checkout");
+});
+
+app.post("/store/checkout", (req, res) => {
+
+});
 
 app.get("/store/:product", middleWare.isLoggedIn, (req, res) => {
   res.render("product");
 });
+
 
 app.get("/createGame", middleWare.isLoggedIn, (req, res) => {
   res.render("newGame");

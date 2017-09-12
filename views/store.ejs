@@ -7,24 +7,24 @@
     <div id="unitCards" class="drop-content closed">
     <% for(var key in units) { %>
       <% if(!units.hasOwnProperty(key)) continue; %>
-      <% var unit = units[key] %>
+      <% var unitCard = units[key] %>
         <div class="card">
           <div class="name">
-            <h5><%= unit.name %></h5>
-            <p><%= unit.unitClass %></p>
+            <h5><%= unitCard.name %></h5>
+            <p><%= unitCard.unitClass %></p>
           </div>
           <div class="stats">
-            <li>Strength: <%= unit.strength %></li>
-            <li>HP: <%= unit.hitpoints %></li>
-            <li>Range: <%= unit.range %></li>
-            <li>Movement: <%= unit.moves %></li>
-            <% if(unit.abilities.length >=1) { %>
-            <li>abilities: <%= unit.abilities.join(', ') %></li>
+            <li>Strength: <%= unitCard.strength %></li>
+            <li>HP: <%= unitCard.hitpoints %></li>
+            <li>Range: <%= unitCard.range %></li>
+            <li>Movement: <%= unitCard.moves %></li>
+            <% if(unitCard.abilities) { %>
+            <li>abilities: <%= unitCard.abilities.join(', ') %></li>
             <% } %>
-            <li>Cost: <%= unit.cost %></li>
+            <li>Cost: <%= unitCard.cost %></li>
           </div>
           <div class="price">
-            <p>$<%= unit.price %></p>
+            <p>$<%= unitCard.price %></p>
           </div>
           <div class="options">
             <a href="/store/<%=key%>"><button class="btn btn-info btn-sm info" type="button" name="button">Info</button></a>
@@ -46,11 +46,68 @@
           </div>
           <div class="stats">
             <li>Strength: <%= instaCard.strength %></li>
-            <li>Area of Effect: <%= instaCard.range %></li>
-            <li>Cost: <%= isntaCard.cost %></li>
+            <li>Area of Effect: <%= instaCard.area %></li>
+            <li>Cost: <%= instaCard.cost %></li>
           </div>
           <div class="price">
             <p>$<%= instaCard.price %></p>
+          </div>
+          <div class="options">
+            <a href="/store/<%key%>"><button class="btn btn-info btn-sm" type="button" name="button">Info</button></a>
+            <button class="btn btn-success btn-sm" type="button" name="button">Add to Cart</button>
+          </div>
+        </div>
+    <% } %>
+    </div>
+  </div>
+  <button id="upgradeButton" class="dropbtn">Upgrade Cards<span class="glyphicon glyphicon-menu-right rotate" aria-hidden="true"></span></button>
+  <div class="row text-center dropdown">
+    <div id="upgradeCards" class="drop-content closed">
+    <% for(var key in upgrades) { %>
+      <% if(!upgrades.hasOwnProperty(key)) continue; %>
+      <% var upgradeCard = upgrade[key] %>
+        <div class="card">
+          <div class="name">
+            <h5><%= upgradeCard.name %></h5>
+            <p><%= upgradeCard.unitClass %></p>
+          </div>
+          <div class="stats">
+            <li>Strength: <%= upgradeCard.strength %></li>
+            <li>HP: <%= upgradeCard.hitpoints %></li>
+            <li>Range: <%= upgradeCard.range %></li>
+            <li>Movement: <%= upgradeCard.moves %></li>
+            <% if(upgradeCard.abilities.length >=1) { %>
+            <li>abilities: <%= upgradeCard.abilities.join(', ') %></li>
+            <% } %>
+            <li>Cost: <%= upgradeCard.cost %></li>
+          </div>
+          <div class="price">
+            <p>$<%= upgradeCard.price %></p>
+          </div>
+          <div class="options">
+            <a href="/store/<%key%>"><button class="btn btn-info btn-sm" type="button" name="button">Info</button></a>
+            <button class="btn btn-success btn-sm" type="button" name="button">Add to Cart</button>
+          </div>
+        </div>
+    <% } %>
+    </div>
+  </div>
+  <button id="abilityButton" class="dropbtn">Ability Cards<span class="glyphicon glyphicon-menu-right rotate" aria-hidden="true"></span></button>
+  <div class="row text-center dropdown">
+    <div id="abilityCards" class="drop-content closed">
+    <% for(var key in abilities) { %>
+      <% if(!abilities.hasOwnProperty(key)) continue; %>
+      <% var abilityCard = abilities[key] %>
+        <div class="card">
+          <div class="name">
+            <h5><%= abilityCard.name %></h5>
+          </div>
+          <div class="stats">
+            <li>Strength: <%= abilityCard.description %></li>
+            <li>Cost: <%= abilityCard.cost %></li>
+          </div>
+          <div class="price">
+            <p>$<%= abilityCard.price %></p>
           </div>
           <div class="options">
             <a href="/store/<%key%>"><button class="btn btn-info btn-sm" type="button" name="button">Info</button></a>
