@@ -7,6 +7,10 @@
   flex-wrap: wrap;
 }
 
+.price-post {
+  visibility: hidden;
+}
+
 .card {
   width: 20%;
   background: #454d55;

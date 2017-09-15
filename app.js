@@ -152,14 +152,14 @@ app.post("/store", (req, res) => {
           type: req.body.type,
           name: req.body.name,
           unitClass: req.body.unitClass,
-          strength: req.body.strength,
-          hitpoints: req.body.hitpoints,
-          range: req.body.range,
-          moves: req.body.moves,
+          strength: parseInt(req.body.strength),
+          hitpoints: parseInt(req.body.hitpoints),
+          range: parseInt(req.body.range),
+          moves: parseInt(req.body.moves),
           abilities: abilitiesArr,
           description: req.body.description,
-          cost: req.body.deployCost,
-          price: req.body.storePrice,
+          cost: parseInt(req.body.deployCost),
+          price: parseFloat(req.body.storePrice),
           image: req.body.image
       }, (err) => {
         if(err) {
@@ -174,16 +174,17 @@ app.post("/store", (req, res) => {
       database.ref('cards/' + req.body.type).push().set({
             type: req.body.type,
             name: req.body.name,
-            strength: req.body.strength,
+            strength: parseInt(req.body.strength),
             description: req.body.description,
-            cost: req.body.deployCost,
-            price: req.body.storePrice,
+            cost: parseInt(req.body.deployCost),
+            price: parseFloat(req.body.storePrice),
             image: req.body.image,
-            area: req.body.area
+            area: parseInt(req.body.area)
       }, (err) => {
         if(err) {
           console.log(err);
         } else {
+          console.log(typeof(req.body.strength));
           console.log("New Card created");
           res.redirect("/store");
         }
@@ -194,14 +195,14 @@ app.post("/store", (req, res) => {
           type: req.body.type,
           name: req.body.name,
           unitClass: req.body.unitClass,
-          strength: req.body.strength,
-          hitpoints: req.body.hitpoints,
-          range: req.body.range,
-          moves: req.body.moves,
+          strength: parseInt(req.body.strength),
+          hitpoints: parseInt(req.body.hitpoints),
+          range: parseInt(req.body.range),
+          moves: parseInt(req.body.moves),
           abilities: abilitiesArr,
           description: req.body.description,
-          cost: req.body.deployCost,
-          price: req.body.storePrice,
+          cost: parseInt(req.body.deployCost),
+          price: parseFloat(req.body.storePrice),
           image: req.body.image
       }, (err) => {
         if(err) {
@@ -217,8 +218,8 @@ app.post("/store", (req, res) => {
         type: req.body.type,
         name: req.body.name,
         description: req.body.description,
-        cost: req.body.cost,
-        price: req.body.price,
+        cost: parseInt(req.body.cost),
+        price: parseFloat(req.body.price),
         image: req.body.image
       }, (err) => {
         if(err) {
@@ -235,30 +236,56 @@ app.post("/store", (req, res) => {
 app.get("/store/checkout", middleWare.isLoggedIn, (req, res) => {
   var uid = firebase.auth().currentUser.uid;
   return database.ref('users/' + uid + '/cart').once('value').then((snapshot) => {
-    var userCart = snapshot.val();
+    var cart = snapshot.val();
+    var totalPrice = 0;
+    for (var key in cart) {
+      if(!cart.hasOwnProperty(key)) continue;
+      var card = cart[key];
+      totalPrice += card.price;
+    }
     res.render("checkout", {
-      cart: userCart
+      cart: cart,
+      totalPrice: totalPrice
     });
   });
 });
 
 app.post("/store/checkout", (req, res) => {
   var uid = firebase.auth().currentUser.uid;
-  database.ref('users/' +  uid + '/cart').push().set({
-    newCard: card
-  }, (err) => {
+  database.ref('users/' + uid +'/cart').push(
+  ).set({
+    cardID: req.body.card,
+    price: parseFloat(req.body.price)
+  }), (err) => {
     if(err) {
       console.log(err);
     } else {
-      console.log("Card successfully added!");
-      res.redirect("/store/cart");
+      console.log("Card successfully added");
     }
-  });
+  }
+  res.redirect("/store/checkout");
 });
 
-app.get("/store/:product", middleWare.isLoggedIn, (req, res) => {
-  res.render("product");
+app.get("/decks", (req, res) => {
+  res.render("decks");
 });
+
+app.post("/decks", (req, res) => {
+  var uid = firebase.auth().currentUser.uid;
+  database.ref('users/' + uid + '/cards').push().set({
+    cardID: req.body.card
+  }), (err) => {
+    if(err) {
+      conosle.log(err);
+    } else {
+      console.log("Cards successfully added");
+    }
+  }
+});
+
+/*app.get("/store/:product", middleWare.isLoggedIn, (req, res) => {
+  res.render("product");
+});*/
 
 
 app.get("/createGame", middleWare.isLoggedIn, (req, res) => {

@@ -29,7 +29,8 @@
           <div class="options">
             <a href="/store/<%=key%>"><button class="btn btn-info btn-sm info" type="button" name="button">Info</button></a>
             <form action="/store/checkout" method="post">
-              <input class="btn btn-success btn-sm" type="button" name="card" value="<% unitCard %>" placeholder="Add To Cart"/>
+              <input type="hidden" name="price" value="<%= unitCard.price %>">
+              <button class="btn btn-sm btn-success" value="<%= key %>" name="card">Add To Cart</button>
             </form>
           </div>
         </div>

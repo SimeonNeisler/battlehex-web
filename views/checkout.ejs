@@ -1,7 +1,19 @@
 <% include partials/header.ejs %>
+<link rel="stylesheet" href="/css/checkout.css">
 
 <div class="container">
   <h3>Shopping Cart</h3>
+
+
+  <h5>Total Cost: <%= totalPrice %></h5>
+
+  <form action="/decks" method="post">
+    <% index = 1 %>
+    <% for card in cart { %>
+      <input type="hidden" name="card<%=index%>" value="<%=card%>">
+    <% } %>
+    <button class="btn btn-sm btn-success" type="submit">Complete Purchase</button>
+  </form>
 </div>
 
 
