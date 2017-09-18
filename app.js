@@ -274,9 +274,9 @@ app.post("/decks", (req, res) => {
   database.ref('users/' + uid + '/cards/userCards').once('value').then((snapshot) => {
     var ownedCards = snapshot.val();
     if(ownedCards == null) {
-      var pushedCards = req.body.cards.split(", ");
+      var pushedCards = req.body.cards.split(",");
     } else {
-      var newCards = (req.body.cards.split(", "));
+      var newCards = (req.body.cards.split(","));
       var pushedCards = ownedCards.concat(newCards);
       console.log(Array.isArray(pushedCards));
       console.log(pushedCards);
@@ -292,9 +292,8 @@ app.post("/decks", (req, res) => {
         database.ref('users/' + uid + '/cart').remove((err) => {
           if (err) {
             console.log(err);
-          } else {
-            res.redirect("/decks")
           }
+          res.redirect("/decks");
         });
       }
     });
