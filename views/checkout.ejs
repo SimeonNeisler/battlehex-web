@@ -1,20 +1,23 @@
 <% include partials/header.ejs %>
 <link rel="stylesheet" href="/css/checkout.css">
 
+</script>
+
 <div class="container">
   <h3>Shopping Cart</h3>
 
 
-  <h5>Total Cost: <%= totalPrice %></h5>
+  <h5>Total Cost: $<%= totalPrice %></h5>
+  <% var cardsArr = [] %>
+  <% for(var key in cart) { %>
+    <% if(!cart.hasOwnProperty(key)) continue; %>
+    <% var card = cart[key] %>
+    <% cardsArr.push(card.cardID) %>
+  <% } %>
 
-  <form action="/decks" method="post">
-    <% index = 1 %>
-    <% for card in cart { %>
-      <input type="hidden" name="card<%=index%>" value="<%=card%>">
-    <% } %>
-    <button class="btn btn-sm btn-success" type="submit">Complete Purchase</button>
-  </form>
+  <button id="purchaseButton" class="btn btn-sm btn-success">Complete Purchase</button>
 </div>
 
 
+<script type="text/javascript" src="/js/checkout.js" cart="<%= cardsArr %>"></script>
 <% include partials/footer.ejs %>

@@ -70,7 +70,6 @@ app.post("/login", (req, res) => {
   firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
     if(err) {
       console.log(err);
-      res.redirect("/");
     }
   }).then(() => {
     res.redirect("/landing");
@@ -272,15 +271,34 @@ app.get("/decks", (req, res) => {
 
 app.post("/decks", (req, res) => {
   var uid = firebase.auth().currentUser.uid;
-  database.ref('users/' + uid + '/cards').push().set({
-    cardID: req.body.card
-  }), (err) => {
-    if(err) {
-      conosle.log(err);
+  database.ref('users/' + uid + '/cards/userCards').once('value').then((snapshot) => {
+    var ownedCards = snapshot.val();
+    if(ownedCards == null) {
+      var pushedCards = req.body.cards.split(", ");
     } else {
-      console.log("Cards successfully added");
+      var newCards = (req.body.cards.split(", "));
+      var pushedCards = ownedCards.concat(newCards);
+      console.log(Array.isArray(pushedCards));
+      console.log(pushedCards);
     }
-  }
+    database.ref('users/' + uid + '/cards').set({
+      userCards: pushedCards
+    }, (err) => {
+      if(err) {
+        console.log(err);
+        res.redirect("/landing");
+      } else {
+        console.log("Cards added to inventory");
+        database.ref('users/' + uid + '/cart').remove((err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.redirect("/decks")
+          }
+        });
+      }
+    });
+  });
 });
 
 /*app.get("/store/:product", middleWare.isLoggedIn, (req, res) => {
