@@ -10,14 +10,7 @@ var app = express();
 
 
 //Config settings for database
-var config = {
-  apiKey : "AIzaSyBzxM1cmlN18AvVIE9SrBVIihn4O5vM8Zg",
-  authDomain: "battlehex-web.firebaseapp.com",
-  databaseURL: "https://battlehex-web.firebaseio.com/",
-  projectId: "battlehex-web",
-  storageBucket: "gs://battlehex-web.appspot.com/",
-  messagingSenderId: "701267753318"
-}
+
 
 //Declare + initialize Database
 var firebaseApp = firebase.initializeApp(config);

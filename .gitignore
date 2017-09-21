@@ -2,3 +2,4 @@
 node_modules/*
 #ignore data classes for now
 src/data/*
+config.js
