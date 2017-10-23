@@ -3,7 +3,7 @@ var bodyParser = require("body-parser"),
     firebase   = require("firebase"),
     flash      = require("connect-flash"),
     path       = require("path");
-
+const settings =  require("./config/settings");
 
 var app = express();
 
@@ -11,12 +11,12 @@ var app = express();
 
 //Config settings for database
 var config = {
-  apiKey : process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  databaseURL: process.env.DATABASE_URL,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_ID
+  apiKey : settings.apiKey,
+  authDomain: settings.authDomain,
+  databaseURL: settings.databaseURL,
+  projectId: settings.projectId,
+  storageBucket: settings.storageBucket,
+  messagingSenderId: settings.messagingSenderId
 }
 //Declare + initialize Database
 var firebaseApp = firebase.initializeApp(config);
@@ -54,18 +54,19 @@ var middleWare = {
   }
 }
 
-
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 //=======================
 //ROUTES
 //=======================
 
 //Login Page
-app.get("/", (req, res) => {
-  res.render("login");
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
-app.post("/login", (req, res) => {
+app.post("/auth/email", (req, res) => {
+  console.log(req.body.email);
   firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
     if(err) {
       console.log(err);
@@ -312,7 +313,7 @@ app.post("/newGame", middleWare.isLoggedIn, (req, res) => {
   res.redirect("/createGame");
 });
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 
 app.listen(port, process.env.IP, () => {
   console.log("Server uplink established");

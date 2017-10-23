@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "description": "Battlehex for web",
   "main": "app.js",
+  "proxy": {
+    "/": {
+      "target": "http://localhost:3000"
+    }
+  },
   "scripts": {
+    "server": "babel-node app.js --presets es2015,stage-2",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm start\" \"npm run client\"",
     "build": "babel server --out-dir build --presets=es2015 && webpack",
     "start": "babel-node app.js --presets es2015,stage-2",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,6 +28,7 @@
   "homepage": "https://github.com/SimeonNeisler/battlehex-web#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "concurrently": "^3.5.0",
     "connect-flash": "^0.1.1",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
