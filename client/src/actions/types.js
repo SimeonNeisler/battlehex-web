@@ -1,1 +1,1 @@
-export const FETCH_USER = 'fetchUser';
+export const SIGN_IN = 'signIn';

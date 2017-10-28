@@ -1,8 +1,9 @@
 var bodyParser = require("body-parser"),
     express    = require("express"),
     firebase   = require("firebase"),
-    flash      = require("connect-flash"),
+    //flash      = require("connect-flash"),
     path       = require("path");
+
 const settings =  require("./config/settings");
 
 var app = express();
@@ -10,20 +11,13 @@ var app = express();
 
 
 //Config settings for database
-var config = {
-  apiKey : settings.apiKey,
-  authDomain: settings.authDomain,
-  databaseURL: settings.databaseURL,
-  projectId: settings.projectId,
-  storageBucket: settings.storageBucket,
-  messagingSenderId: settings.messagingSenderId
-}
+//var config = settings;
 //Declare + initialize Database
-var firebaseApp = firebase.initializeApp(config);
+var firebaseApp = firebase.initializeApp(settings);
 var database = firebase.database();
 
 //app.use(flash());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "/public")));
 
 /*app.use((req, res, next) => {
@@ -38,7 +32,6 @@ app.use((req, res, next) => {
 });
 
 
-app.set("view engine", "ejs");
 
 //=====================
 //MiddleWare
@@ -56,27 +49,35 @@ var middleWare = {
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+/*app.use('/*', (req,res,next) => {
+  res.header("Access-Control-Allow-Origin", "*"); res.header("Access-Control-Allow-Credentials", "true"); res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT"); res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+  next();
+});*/
+
 //=======================
 //ROUTES
 //=======================
 
 //Login Page
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
 
-app.post("/auth/email", (req, res) => {
-  console.log(req.body.email);
-  firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
+app.post("/auth/email", async (req, res) => {
+  console.log("Request Received");
+  await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
     if(err) {
       console.log(err);
     }
-  }).then(() => {
-    res.redirect("/landing");
   });
+  const user = firebase.auth().currentUser;
+  console.log(user);
+  res.send(user);
 });
 
-app.get("/register", (req, res) => {
+app.get("*", (req, res) => {
+  res.send(firebase.auth().currentUser);
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
+
+/*app.get("/register", (req, res) => {
   res.render("register");
 });
 

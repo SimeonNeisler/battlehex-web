@@ -1,8 +1,10 @@
-import axios from 'axios';
-import { FETCH_USER } from './types';
+import 'whatwg-fetch';
+import { SIGN_IN } from './types';
 
-export const signIn = (email, password) => async dispatch => {
-  const res = await axios.post('/auth/email', email, password);
-
-  dispatch({ type: FETCH_USER, payload: res.data});
+export const signIn = (email, password) => dispatch => {
+  const body = {
+    email: email,
+    password: password
+  }
+  dispatch({ type: SIGN_IN, payload: body});
 }

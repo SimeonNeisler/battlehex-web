@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 
 import * as actions from '../actions';
 import Landing from './login/Landing';
-import Register from './Register';
 import Menu from './Menu';
 
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchUser();
+    //this.props.fetchUser();
   }
 
   render() {
@@ -20,7 +19,6 @@ class App extends Component {
           <div className="container">
             <Route exact path = "/" component={Landing} />
             <Route exact path = "/Menu" component={Menu} />
-            <Route exact path = "/Register" component={Register} />
           </div>
         </BrowserRouter>
       </div>
