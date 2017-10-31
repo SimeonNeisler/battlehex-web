@@ -1,21 +1,34 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as actions from '../../actions';
-import post from '../../functions/authPost';
+import { withRouter } from 'react-router-dom';
+
+import { signIn } from '../../actions';
+import formFields from './formFields';
+import login from '../../css/login.css';
 
 class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {email: '', password: ''};
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
-    const res = post(this.state.email, this.state.password);
-    this.setState({res});
-    console.log(this.state.res);
+  renderFields() {
+    return _.map(formFields, ({type, name, placeholder}) => {
+      return (
+        <div key={name}>
+          <input
+            type={type}
+            name={name}
+            placeholder={placeholder}
+            value={this.state.value}
+            onChange={this.handleInputChange}
+          />
+        </div>
+      )
+    });
   }
 
   handleInputChange(event) {
@@ -25,41 +38,26 @@ class LoginForm extends Component {
     this.setState({[name]: value});
   }
 
+
   render() {
     return (
-      <div className="container">
-        <div className="row" styles={{width: '30%', margin: '0 auto'}}>
-          <h3>Login</h3>
-          <form>
-            <div className="form-group">
-              <input
-              type="email"
-              name="email"
-              placeholder="name@email.com"
-              value={this.state.email}
-              onChange = {this.handleInputChange}/>
-            </div>
-            <div className="form-group">
-              <input
-              type="password"
-              name="password"
-              placeholder="password"
-              value={this.state.value}
-              onChange={this.handleInputChange}/>
-            </div>
-            <div className="form-group">
-              <button
-              className="btn btn-lg btn-success"
-              onClick={this.handleSubmit}>Login</button>
-            </div>
-            <div className="form-group">
-              <Link className="btn btn-lg btn-default" to="/register">Sign Up</Link>
-            </div>
-          </form>
-        </div>
+      <div className="row" styles={{width: '30%', margin: '0 auto'}}>
+        <h3>Login</h3>
+        <form>
+          {this.renderFields()}
+          <div>
+            <button
+            className="btn btn-lg btn-success"
+            type="submit"
+            onClick={() => this.props.signIn(this.state.email, this.state.password, this.props.history)}>
+              Login
+            </button>
+          </div>
+          <Link className="btn btn-lg btn-default" to="/register">Sign Up</Link>
+        </form>
       </div>
     );
   }
 }
 
-export default connect(null, actions)(LoginForm);
+export default connect(null, {signIn})(withRouter(LoginForm));

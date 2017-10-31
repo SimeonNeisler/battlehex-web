@@ -49,10 +49,10 @@ var middleWare = {
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-/*app.use('/*', (req,res,next) => {
+app.use('*', (req,res,next) => {
   res.header("Access-Control-Allow-Origin", "*"); res.header("Access-Control-Allow-Credentials", "true"); res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT"); res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
   next();
-});*/
+});
 
 //=======================
 //ROUTES
@@ -62,18 +62,25 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.post("/auth/email", async (req, res) => {
   console.log("Request Received");
-  await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
+  console.log(req.body);
+  const user = await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
     if(err) {
       console.log(err);
     }
   });
-  const user = firebase.auth().currentUser;
-  console.log(user);
-  res.send(user);
+  res.send(user.uid);
 });
 
-app.get("*", (req, res) => {
-  res.send(firebase.auth().currentUser);
+app.get('/auth/currentUser', (req, res) => {
+  const user = firebase.auth().currentUser;
+  if (user) {
+    res.send(firebase.auth().currentUser.uid);
+  } else {
+    res.send("Please login");
+  }
+});
+
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
@@ -306,13 +313,13 @@ app.post("/decks", (req, res) => {
 });*/
 
 
-app.get("/createGame", middleWare.isLoggedIn, (req, res) => {
+/*app.get("/createGame", middleWare.isLoggedIn, (req, res) => {
   res.render("newGame");
 });
 
 app.post("/newGame", middleWare.isLoggedIn, (req, res) => {
   res.redirect("/createGame");
-});
+});*/
 
 var port = process.env.PORT || 5000;
 
