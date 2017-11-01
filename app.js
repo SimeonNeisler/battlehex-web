@@ -60,15 +60,18 @@ app.use('*', (req,res,next) => {
 
 //Login Page
 
-app.post("/auth/email", async (req, res) => {
+app.post("/auth/email", (req, res) => {
   console.log("Request Received");
   console.log(req.body);
-  const user = await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
+  firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then((user) => {
+    console.log(user.uid);
+    res.send(user.uid);
+  }).catch((err) => {
     if(err) {
       console.log(err);
+      res.send(err);
     }
   });
-  res.send(user.uid);
 });
 
 app.get('/auth/currentUser', (req, res) => {

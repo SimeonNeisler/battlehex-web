@@ -8,10 +8,11 @@ export const signIn = (email, password, history) => dispatch => {
   };
   axios.post('/auth/email', body).then((res) => {
     dispatch({ type: SIGN_IN, payload: res.data});
+    return res.data;
   }).catch((err) => {
     console.log(err);
   });
-  history.push('/menu');
+  console.log(res.data);
 }
 
 export const fetchUser = () => dispatch => {
