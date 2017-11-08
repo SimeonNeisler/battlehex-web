@@ -26,10 +26,6 @@ app.use(express.static(path.join(__dirname, "/public")));
   next();
 });*/
 
-app.use((req, res, next) => {
-  res.locals.currentUser = firebase.auth().currentUser;
-  next();
-});
 
 
 
@@ -49,10 +45,10 @@ var middleWare = {
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.use('*', (req,res,next) => {
+/*app.use('*', (req,res,next) => {
   res.header("Access-Control-Allow-Origin", "*"); res.header("Access-Control-Allow-Credentials", "true"); res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT"); res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
   next();
-});
+});*/
 
 //=======================
 //ROUTES
@@ -83,9 +79,9 @@ app.get('/auth/currentUser', (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
+/*app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
+});*/
 
 /*app.get("/register", (req, res) => {
   res.render("register");

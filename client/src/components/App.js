@@ -9,8 +9,8 @@ import Menu from './Menu';
 
 class App extends Component {
   componentDidMount() {
-    //this.props.fetchUser();
-    console.log(this.props.fetchUser());
+    this.props.fetchUser();
+
   }
 
   render() {

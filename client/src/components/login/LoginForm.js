@@ -43,7 +43,6 @@ class LoginForm extends Component {
     return (
       <div className="row" styles={{width: '30%', margin: '0 auto'}}>
         <h3>Login</h3>
-        <form>
           {this.renderFields()}
           <div>
             <button
@@ -54,7 +53,6 @@ class LoginForm extends Component {
             </button>
           </div>
           <Link className="btn btn-lg btn-default" to="/register">Sign Up</Link>
-        </form>
       </div>
     );
   }
