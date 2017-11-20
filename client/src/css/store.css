@@ -1,0 +1,114 @@
+.container {
+  height: 100%;
+}
+
+.row .text-center {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.price-post {
+  visibility: hidden;
+}
+
+.card {
+  width: 20%;
+  background: #454d55;
+  margin: 2%;
+  display: inline-block;
+  white-space: pre;
+  border: 3px solid #AAAAAA;
+  border-radius: 15%;
+  height: 400px;
+  max-height: 400px;
+  position: relative;
+}
+
+.name {
+  height: 40px;
+  color: aliceblue;
+  position: relative;
+}
+
+.name h5 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.name p {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stats {
+  height: 200px;
+  white-space: right;
+  line-height: 80%;
+  color: aliceblue;
+  text-align: left;
+  padding-left: 10px;
+  position: relative;
+}
+
+.price {
+  height: 20px;
+  color: aliceblue;
+  position: relative;
+}
+
+.price p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.options {
+  white-space: nowrap;
+  text-align: center;
+}
+
+.btn-sm {
+  margin: 5px;
+}
+
+.dropbtn {
+  margin: 20px;
+  font-size: 1.5em;
+  text-align: left;
+}
+
+.drop-content {
+  overflow-y: scroll;
+  white-space: normal;
+  max-height: 500px;
+  transition-property: all;
+	transition-duration: .5s;
+	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.closed {
+  max-height: 0px;
+}
+
+.glyphicon-menu-right {
+  display: inline-block;
+  font-size: 0.7em;
+}
+
+.rotate {
+    -moz-transition: all 0.2s linear;
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+
+.rotate.down {
+    -ms-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+    transform:rotate(90deg);
+}

@@ -56,7 +56,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 //Login Page
 
-app.post("/auth/email", (req, res) => {
+app.post('/auth/email', (req, res) => {
   console.log("Request Received");
   console.log(req.body);
   firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then((user) => {
@@ -73,10 +73,36 @@ app.post("/auth/email", (req, res) => {
 app.get('/auth/currentUser', (req, res) => {
   const user = firebase.auth().currentUser;
   if (user) {
-    res.send(firebase.auth().currentUser.uid);
+    res.send(user.uid);
   } else {
     res.send("Please login");
   }
+});
+
+app.get('/auth/logout', (req, res) => {
+  firebase.auth().signOut().then(() => {
+    console.log("Signout successful");
+    res.send("Signed out");
+  }).catch((err) => {
+    console.log(err);
+    res.send("Error Occurred");
+  });
+
+});
+
+app.get("/store", async (req, res) => {
+  var snapshot = await database.ref('/cards').once('value');
+  var cards = snapshot.val();
+  res.send(cards);
+
+  /*.then((snapshot) => {
+    var cards = snapshot.val();
+    res.render("store", {
+      units: cards.unit,
+      insta: cards.instant,
+      upgrades: cards.upgrade,
+      abilities: cards.abilities
+    });*/
 });
 
 /*app.get("/", (req, res) => {
@@ -124,21 +150,9 @@ app.get("/signout", (req, res) => {
 //Home Page
 app.get("/landing", middleWare.isLoggedIn, (req, res) => {
   res.render("landing");
-});
+});*/
 
-//Store Page
-app.get("/store", middleWare.isLoggedIn, (req, res) => {
-  return database.ref('/cards').once('value').then((snapshot) => {
-    var cards = snapshot.val();
-    res.render("store", {
-      units: cards.unit,
-      insta: cards.instant,
-      upgrades: cards.upgrade,
-      abilities: cards.abilities
-    });
-  });
-});
-
+/*
 //Dev screen to create new cards
 app.get("/store/new", (req, res) => {
   res.render("newCard");

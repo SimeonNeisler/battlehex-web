@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-export default class Menu extends Component {
+import { signOut } from '../actions';
+
+class Menu extends Component {
   constructor(props) {
     super(props);
     console.log(this.props.state);
@@ -13,20 +18,23 @@ export default class Menu extends Component {
 
         <div className="container">
           <div className="row">
-            <a className="card" href="/profile"><p className="text">Profile</p></a>
+            <Link className="card" to="/profile">Profile</Link>
 
-            <a className="card" href="/newGame"><p className="text">New Game</p></a>
+            <Link className="card" to="/newGame">New Game</Link>
 
-            <a className="card" href="/activeGames"><p className="text">Active Games</p></a>
+            <Link className="card" to="/activeGames">Load Game</Link>
           </div>
           <div className="row">
-              <a className="card" href="/decks"><p className="text">Decks</p></a>
+            <Link className="card" to="/decks">Decks</Link>
 
-              <a className="card" href="/store"><p className="text">Store</p></a>
-              <a className="card" href="/signout"><button type="button" name="button">Logout</button></a>
+            <Link className="card" to="/store">Store</Link>
+
+            <Link className="card" onClick={() => this.props.signOut(this.props.history)} to="/signout">Logout</Link>
           </div>
         </div>
       </div>
     );
   }
 }
+
+export default connect(null, {signOut})(withRouter(Menu));
