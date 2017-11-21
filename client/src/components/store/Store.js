@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 
 import '../../css/store.css';
 import { getCards } from '../../actions';
@@ -11,6 +11,7 @@ class Store extends Component {
   constructor(props) {
     super(props);
     this.state = {cards: {}};
+    this.toggleCards = this.toggleCards.bind(this);
   }
 
   async componentDidMount() {
@@ -20,13 +21,19 @@ class Store extends Component {
     console.log(this.state);
   }
 
+  toggleCards() {
+    var node = ReactDOM.findDOMNode(this.refs.unitCards);
+    node.classList.toggle('closed');
+  }
+
   render() {
     if(this.state.cards.unit) {
       var units = this.state.cards.unit;
+      var unitsArr = [];
       for(var key in units) {
         if(!units.hasOwnProperty(key)) continue;
         var stats = units[key];
-        var unitCards =
+        var unitCard =
           <Card
             name={stats.name}
             unitClass={stats.unitClass}
@@ -38,6 +45,7 @@ class Store extends Component {
             cost={stats.cost}
             price={stats.price}
           />
+          unitsArr.push(unitCard);
       }
     } else {
       var unitCards = <div>Nothing to Show</div>
@@ -45,8 +53,12 @@ class Store extends Component {
     return (
       <div>
         <h3>Store</h3>
-        <button id="unitButton" className="dropbtn">Units<span className="glyphicon glyphicon-menu-right rotate" aria-hidden="true"></span></button>
-        {unitCards}
+        <button id="unitButton" onClick={this.toggleCards} className="dropbtn">Units<span className="glyphicon glyphicon-menu-right rotate" aria-hidden="true"></span></button>
+        <div className="row text-center dropdown">
+          <div ref="unitCards" className="drop-content closed">
+            {unitsArr}
+          </div>
+        </div>
       </div>
     );
   }

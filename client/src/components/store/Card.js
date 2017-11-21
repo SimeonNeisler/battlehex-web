@@ -1,7 +1,13 @@
 import React from 'react';
-import '../../css/store.css';
+import '../../css/card.css';
 
 export default ({name, unitClass, strength, hitpoints, range, moves, abilities, cost, price}) => {
+  if(abilities != null) {
+    abilities.join(', ');
+    var powers = <li>{abilities}</li>
+  } else {
+    var powers = null;
+  }
   return (
     <div className="card">
       <div className="name">
@@ -13,9 +19,7 @@ export default ({name, unitClass, strength, hitpoints, range, moves, abilities, 
         <li>HP: {hitpoints}</li>
         <li>Range: {range}</li>
         <li>Movement: {moves}</li>
-        if(abilities != null) {
-          <li>abilities:{abilities.join(', ')}</li>
-        }
+        {powers}
         <li>Cost: {cost}</li>
       </div>
       <div className="price">

@@ -1,0 +1,58 @@
+.card {
+  width: 20%;
+  background: #454d55;
+  margin: 2%;
+  display: inline-block;
+  white-space: pre;
+  border: 3px solid #AAAAAA;
+  border-radius: 15%;
+  height: 400px;
+  max-height: 400px;
+  position: relative;
+}
+
+.name {
+  margin: 5px;
+  height: 40px;
+  color: aliceblue;
+  position: relative;
+}
+
+.name h5 {
+  margin: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.name p {
+  margin: 5px;
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stats {
+  padding-top: 20px;
+  height: 200px;
+  white-space: right;
+  color: aliceblue;
+  text-align: left;
+  padding-left: 10px;
+  position: relative;
+}
+
+.price {
+  height: 20px;
+  color: aliceblue;
+  position: relative;
+}
+
+.price p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
