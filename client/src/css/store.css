@@ -56,3 +56,19 @@
     -webkit-transform:rotate(90deg);
     transform:rotate(90deg);
 }
+
+.dropdown {
+  clear: left;
+}
+
+#secondRow {
+  clear: left;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}

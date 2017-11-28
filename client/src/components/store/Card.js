@@ -6,7 +6,7 @@ export default ({name, unitClass, strength, hitpoints, range, moves, abilities, 
     abilities.join(', ');
     var powers = <li>{abilities}</li>
   } else {
-    var powers = null;
+    powers = null;
   }
   return (
     <div className="card">
@@ -26,10 +26,10 @@ export default ({name, unitClass, strength, hitpoints, range, moves, abilities, 
         <p>${price}</p>
       </div>
       {/*<div className="options">
-        <a href="/store/<%=key%>"><button className="btn btn-info btn-sm info" type="button" name="button">Info</button></a>
+      <button className="btn btn-info btn-sm info" type="button" name="button">Info</button>
         <form action="/store/checkout" method="post">
-          <input type="hidden" name="price" value="<%= unitCard.price %>">
-          <button className="btn btn-sm btn-success" value="<%= key %>" name="card">Add To Cart</button>
+          <input type="hidden" name="price"/>
+          <button className="btn btn-sm btn-success"name="card">Add To Cart</button>
         </form>
       </div>*/}
     </div>

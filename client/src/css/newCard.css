@@ -1,0 +1,26 @@
+.custom-container {
+  text-align: center;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    clear: left;
+}
+
+.left {
+  float: left;
+}
+
+
+
+#CardType {
+  clear: left;
+  width: 16%;
+  margin-left: 10px;
+}
+
+
+input {
+  width: 100%;
+  margin: 5px;
+  display: inline-block;
+}

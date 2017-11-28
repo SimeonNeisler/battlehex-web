@@ -105,6 +105,98 @@ app.get("/store", async (req, res) => {
     });*/
 });
 
+app.post("/store", (req, res) => {
+  var {cardName, type, deployCost, storePrice, description, image, strength, hitpoints, range, moves, unitClass, abilities, area} = req.body.state;
+  res.send("Card submitted");
+  if(abilities != null) {
+    var abilitiesArr = abilities.split(' ');
+  } else {
+    var abilitiesArr = null;
+  }
+  switch(type) {
+    case "unit":
+      database.ref('cards/' + type).push().set({
+          type: type,
+          name: cardName,
+          unitClass: unitClass,
+          strength: parseInt(strength),
+          hitpoints: parseInt(hitpoints),
+          range: parseInt(range),
+          moves: parseInt(moves),
+          abilities: abilitiesArr,
+          description: description,
+          cost: parseInt(deployCost),
+          price: parseFloat(storePrice),
+          image: image
+      }, (err) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log("New Card created");
+        }
+      });
+    break;
+    case "instant":
+      database.ref('cards/' + type).push().set({
+            type: type,
+            name: cardName,
+            strength: parseInt(strength),
+            description: description,
+            cost: parseInt(deployCost),
+            price: parseFloat(storePrice),
+            image: image,
+            area: parseInt(area)
+      }, (err) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(typeof(strength));
+          console.log("New Card created");
+        }
+      });
+    break;
+    case "upgrade":
+      database.ref('cards/' + type).push().set({
+          type: type,
+          name: cardName,
+          unitClass: unitClass,
+          strength: parseInt(strength),
+          hitpoints: parseInt(hitpoints),
+          range: parseInt(range),
+          moves: parseInt(moves),
+          abilities: abilitiesArr,
+          description: description,
+          cost: parseInt(deployCost),
+          price: parseFloat(storePrice),
+          image: image
+      }, (err) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log("New Card created");
+        }
+      });
+    break;
+    case "ability":
+      database.ref('cards/' + type).push().set({
+        type: type,
+        name: cardName,
+        description: description,
+        cost: parseInt(cost),
+        price: parseFloat(price),
+        image: image
+      }, (err) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log("New Card created");
+        }
+      });
+    break;
+  }
+  res.send("Card Submitted.");
+});
+
 /*app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });*/
@@ -160,98 +252,6 @@ app.get("/store/new", (req, res) => {
 
 
 //Adds new card to the store
-app.post("/store", (req, res) => {
-  if(req.body.abilities != null) {
-    var abilitiesArr = req.body.abilities.split(' ');
-  } else {
-    var abilitiesArr = null;
-  }
-  switch(req.body.type) {
-    case "unit":
-      database.ref('cards/' + req.body.type).push().set({
-          type: req.body.type,
-          name: req.body.name,
-          unitClass: req.body.unitClass,
-          strength: parseInt(req.body.strength),
-          hitpoints: parseInt(req.body.hitpoints),
-          range: parseInt(req.body.range),
-          moves: parseInt(req.body.moves),
-          abilities: abilitiesArr,
-          description: req.body.description,
-          cost: parseInt(req.body.deployCost),
-          price: parseFloat(req.body.storePrice),
-          image: req.body.image
-      }, (err) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log("New Card created");
-          res.redirect("/store");
-        }
-      });
-    break;
-    case "instant":
-      database.ref('cards/' + req.body.type).push().set({
-            type: req.body.type,
-            name: req.body.name,
-            strength: parseInt(req.body.strength),
-            description: req.body.description,
-            cost: parseInt(req.body.deployCost),
-            price: parseFloat(req.body.storePrice),
-            image: req.body.image,
-            area: parseInt(req.body.area)
-      }, (err) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log(typeof(req.body.strength));
-          console.log("New Card created");
-          res.redirect("/store");
-        }
-      });
-    break;
-    case "upgrade":
-      database.ref('cards/' + req.body.type).push().set({
-          type: req.body.type,
-          name: req.body.name,
-          unitClass: req.body.unitClass,
-          strength: parseInt(req.body.strength),
-          hitpoints: parseInt(req.body.hitpoints),
-          range: parseInt(req.body.range),
-          moves: parseInt(req.body.moves),
-          abilities: abilitiesArr,
-          description: req.body.description,
-          cost: parseInt(req.body.deployCost),
-          price: parseFloat(req.body.storePrice),
-          image: req.body.image
-      }, (err) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log("New Card created");
-          res.redirect("/store");
-        }
-      });
-    break;
-    case "ability":
-      database.ref('cards/' + req.body.type).push().set({
-        type: req.body.type,
-        name: req.body.name,
-        description: req.body.description,
-        cost: parseInt(req.body.cost),
-        price: parseFloat(req.body.price),
-        image: req.body.image
-      }, (err) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log("New Card created");
-          res.redirect("/store");
-        }
-      });
-    break;
-  }
-});
 
 app.get("/store/checkout", middleWare.isLoggedIn, (req, res) => {
   var uid = firebase.auth().currentUser.uid;
