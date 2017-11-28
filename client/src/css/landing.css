@@ -2,8 +2,9 @@ h2 {
   text-align: center;
 }
 
-.container {
-  text-align: center;
+.custom-container {
+  margin-left: 5%;
+  margin-right: 5%;
   vertical-align: middle;
 }
 .text {

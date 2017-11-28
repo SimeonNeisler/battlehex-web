@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import { signIn } from '../../actions';
 import formFields from './formFields';
@@ -43,7 +42,6 @@ class LoginForm extends Component {
     return (
       <div className="row" styles={{width: '30%', margin: '0 auto'}}>
         <h3>Login</h3>
-        <form>
           {this.renderFields()}
           <div>
             <button
@@ -54,7 +52,6 @@ class LoginForm extends Component {
             </button>
           </div>
           <Link className="btn btn-lg btn-default" to="/register">Sign Up</Link>
-        </form>
       </div>
     );
   }
