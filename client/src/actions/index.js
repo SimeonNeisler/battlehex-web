@@ -1,10 +1,26 @@
-import 'whatwg-fetch';
-import { SIGN_IN } from './types';
+import axios from 'axios';
+import { SIGN_IN, FETCH_USER } from './types';
 
-export const signIn = (email, password) => dispatch => {
+export const signIn = (email, password, history) => dispatch => {
   const body = {
-    email: email,
-    password: password
-  }
-  dispatch({ type: SIGN_IN, payload: body});
+    email,
+    password
+  };
+  axios.post('/auth/email', body).then((res) => {
+    dispatch({ type: SIGN_IN, payload: res.data});
+    return res.data;
+  }).catch((err) => {
+    console.log(err);
+  });
+  console.log(res.data);
+}
+
+export const fetchUser = () => dispatch => {
+  axios.get('/auth/currentUser').then((res) => {
+    console.log(res);
+    dispatch({ type: FETCH_USER, payload: res.data});
+  }).catch((err) => {
+    console.log(err);
+  });
+
 }

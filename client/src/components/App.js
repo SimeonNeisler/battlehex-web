@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions';
+import {fetchUser} from '../actions';
 import Landing from './login/Landing';
 import Menu from './Menu';
 
@@ -10,6 +10,7 @@ import Menu from './Menu';
 class App extends Component {
   componentDidMount() {
     //this.props.fetchUser();
+    console.log(this.props.fetchUser());
   }
 
   render() {
@@ -18,7 +19,7 @@ class App extends Component {
         <BrowserRouter>
           <div className="container">
             <Route exact path = "/" component={Landing} />
-            <Route exact path = "/Menu" component={Menu} />
+            <Route exact path = "/menu" component={Menu} />
           </div>
         </BrowserRouter>
       </div>
@@ -26,4 +27,4 @@ class App extends Component {
   }
 }
 
-export default connect(null, actions)(App);
+export default connect(null, {fetchUser})(App);
