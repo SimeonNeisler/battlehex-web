@@ -11,62 +11,6 @@
   visibility: hidden;
 }
 
-.card {
-  width: 20%;
-  background: #454d55;
-  margin: 2%;
-  display: inline-block;
-  white-space: pre;
-  border: 3px solid #AAAAAA;
-  border-radius: 15%;
-  height: 400px;
-  max-height: 400px;
-  position: relative;
-}
-
-.name {
-  height: 40px;
-  color: aliceblue;
-  position: relative;
-}
-
-.name h5 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.name p {
-  position: absolute;
-  top: 120%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.stats {
-  height: 200px;
-  white-space: right;
-  line-height: 80%;
-  color: aliceblue;
-  text-align: left;
-  padding-left: 10px;
-  position: relative;
-}
-
-.price {
-  height: 20px;
-  color: aliceblue;
-  position: relative;
-}
-
-.price p {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .options {
   white-space: nowrap;
   text-align: center;
@@ -75,7 +19,6 @@
 .btn-sm {
   margin: 5px;
 }
-
 
 .dropbtn {
   margin: 20px;
@@ -112,4 +55,20 @@
     -moz-transform:rotate(90deg);
     -webkit-transform:rotate(90deg);
     transform:rotate(90deg);
+}
+
+.dropdown {
+  clear: left;
+}
+
+#secondRow {
+  clear: left;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
 }

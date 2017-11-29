@@ -5,7 +5,7 @@ import '../../css/landing.css';
 export default class Landing extends Component {
   render() {
     return (
-      <LoginForm />
+      <LoginForm/>
     );
   }
 }
