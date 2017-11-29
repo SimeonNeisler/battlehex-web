@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SIGN_IN, SIGN_OUT, FETCH_USER, GET_CARDS } from './types';
+import { SIGN_IN, SIGN_OUT, FETCH_USER, GET_CARDS, ADD_TO_CART } from './types';
 
 export const signIn = (email, password, history) => async dispatch => {
   const res = await axios.post('/auth/email', {email, password});
@@ -25,4 +25,9 @@ export const getCards = () => async dispatch => {
   const cards = await axios.get('/store');
   dispatch({type: GET_CARDS, payload: cards.data});
   return cards;
+}
+
+export const addToCart = (key, card) => async dispatch => {
+  const res = await axios.post('/store/cart', {key, card});
+  console.log(res);
 }

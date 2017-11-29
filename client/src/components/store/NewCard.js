@@ -22,9 +22,6 @@ class newCard extends Component {
     this.setState({[name]: value});
   }
 
-
-
-
   renderUniversalFields() {
     return _.map(universalFields, ({key, type, name, min, step, placeholder}) => {
       return (
@@ -66,7 +63,7 @@ class newCard extends Component {
 
   render() {
     return (
-      <div style={{width:'100%'}} ref={(div) => {this.rootDiv = div;}}>
+      <div style={{width:'100%'}} ref={(div) => {this.rootDiv = div}}>
           <h4>Create a New Card</h4>
           <Link className="btn btn-default btn-arrow-left left" to="/store">Back to Store</Link>
         <div className="custom-container">

@@ -197,6 +197,11 @@ app.post("/store", (req, res) => {
   res.send("Card Submitted.");
 });
 
+app.post("/store/cart", (req, res) => {
+  console.log(req.body);
+  res.send("Card received");
+});
+
 /*app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });*/

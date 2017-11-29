@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import 'bootstrap-arrow-buttons/dist/css/bootstrap-arrow-buttons.css';
 
 import '../../css/store.css';
-import { getCards } from '../../actions';
+import { getCards, addToCart } from '../../actions';
 import Card from './Card';
 
 class Store extends Component {
@@ -13,6 +13,7 @@ class Store extends Component {
     super(props);
     this.state = {cards: {}};
     this.toggleCards = this.toggleCards.bind(this);
+    this.toggleInstants = this.toggleInstants.bind(this);
   }
 
   async componentDidMount() {
@@ -22,11 +23,14 @@ class Store extends Component {
   }
 
   toggleCards() {
-    var node = ReactDOM.findDOMNode(this.refs.unitCards);
-    node.classList.toggle('closed');
-  };
+    this.cardsDiv.classList.toggle('closed');
+  }
 
-  render() {
+  toggleInstants() {
+    this.instantsDiv.classList.toggle('closed');
+  }
+
+  renderUnits() {
     if(this.state.cards.unit) {
       var units = this.state.cards.unit;
       var unitsArr = [];
@@ -34,23 +38,55 @@ class Store extends Component {
         if(!units.hasOwnProperty(key)) continue;
         var stats = units[key];
         var unitCard =
+            <Card
+              key={key}
+              name={stats.name}
+              unitClass={stats.unitClass}
+              strength={stats.strength}
+              hitpoints={stats.hitpoints}
+              range={stats.range}
+              moves={stats.moves}
+              abilities={stats.abilities}
+              cost={stats.cost}
+              price={stats.price}
+              purchaseEvent={addToCart(key, stats)}
+            />
+          unitsArr.push(unitCard);
+      }
+      return unitsArr;
+    } else {
+      return <div>Nothing to Show</div>
+    }
+  }
+
+  renderInstants() {
+    if(this.state.cards.instant) {
+      var instants = this.state.cards.instant;
+      var instantsArr = [];
+      for(var key in instants) {
+        if(!instants.hasOwnProperty(key)) continue;
+        var stats = instants[key];
+        var instantCard =
           <Card
             key={key}
             name={stats.name}
-            unitClass={stats.unitClass}
             strength={stats.strength}
-            hitpoints={stats.hitpoints}
-            range={stats.range}
-            moves={stats.moves}
-            abilities={stats.abilities}
+            area={stats.area}
             cost={stats.cost}
             price={stats.price}
+            purchaseEvent={addToCart(key, stats)}
           />
-          unitsArr.push(unitCard);
+          instantsArr.push(instantCard);
       }
+      return instantsArr;
     } else {
-      var unitCards = <div>Nothing to Show</div>
+      return <div>Nothing to Show</div>
     }
+
+  }
+
+
+  render() {
     return (
       <div className="container">
         <div>
@@ -61,8 +97,14 @@ class Store extends Component {
         <div id="secondRow">
           <button id="unitButton" onClick={this.toggleCards} className="left dropbtn">Units<span className="glyphicon glyphicon-menu-right rotate" aria-hidden="true"></span></button>
           <div className="row text-center dropdown">
-            <div ref="unitCards" className="drop-content closed">
-              {unitsArr}
+            <div ref={(div) => {this.cardsDiv = div}} className="drop-content closed">
+              {this.renderUnits()}
+            </div>
+          </div>
+          <button id="instantButton" className="left dropbtn" onClick={this.toggleInstants}>Instant Damage<span className="glyphicon glyphicon-menu-right rotate" aria-hidden="true"></span></button>
+          <div className="row text-center dropdown">
+            <div ref={(div) => {this.instantsDiv = div}} className="drop-content closed">
+              {this.renderInstants()}
             </div>
           </div>
         </div>
@@ -78,4 +120,4 @@ class Store extends Component {
 
 
 
-export default connect(null, {getCards})(Store);
+export default connect(null, {getCards, addToCart})(Store);

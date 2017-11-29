@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../css/card.css';
 
-export default ({name, unitClass, strength, hitpoints, range, moves, abilities, cost, price}) => {
+export default ({name, unitClass, strength, hitpoints, range, moves, abilities, cost, price, purchaseEvent}) => {
   if(abilities != null) {
     abilities.join(', ');
     var powers = <li>{abilities}</li>
@@ -25,13 +25,10 @@ export default ({name, unitClass, strength, hitpoints, range, moves, abilities, 
       <div className="price">
         <p>${price}</p>
       </div>
-      {/*<div className="options">
-      <button className="btn btn-info btn-sm info" type="button" name="button">Info</button>
-        <form action="/store/checkout" method="post">
-          <input type="hidden" name="price"/>
-          <button className="btn btn-sm btn-success"name="card">Add To Cart</button>
-        </form>
-      </div>*/}
+      <div className="options">
+        <button className="btn btn-info btn-sm info" type="button" name="button">Info</button>
+        <button className="btn btn-sm btn-success"name="card" onClick={purchaseEvent}>Add To Cart</button>
+      </div>
     </div>
   );
 }
