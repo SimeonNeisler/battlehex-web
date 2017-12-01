@@ -19,6 +19,7 @@ class Store extends Component {
   async componentDidMount() {
     const res = await this.props.getCards();
     const cards = res.data;
+    console.log(cards);
     this.setState({cards});
   }
 
@@ -30,13 +31,26 @@ class Store extends Component {
     this.instantsDiv.classList.toggle('closed');
   }
 
+  addToCart() {
+    //ToDo: Implement LinkedList(?)
+      //Tack card on to list
+      //pass list to checkout component
+      //iterate through list on Checkout
+      //Tally cost of all cards
+      //send Cards to server
+      //process payment
+      //add cards to user's deck
+
+
+  }
+
   renderUnits() {
     if(this.state.cards.unit) {
       var units = this.state.cards.unit;
       var unitsArr = [];
       for(var key in units) {
         if(!units.hasOwnProperty(key)) continue;
-        var stats = units[key];
+        var stats = units[key].card;
         var unitCard =
             <Card
               key={key}
@@ -47,8 +61,8 @@ class Store extends Component {
               range={stats.range}
               moves={stats.moves}
               abilities={stats.abilities}
-              cost={stats.cost}
-              price={stats.price}
+              cost={stats.deployCost}
+              price={stats.storePrice}
               purchaseEvent={addToCart(key, stats)}
             />
           unitsArr.push(unitCard);
@@ -65,16 +79,16 @@ class Store extends Component {
       var instantsArr = [];
       for(var key in instants) {
         if(!instants.hasOwnProperty(key)) continue;
-        var stats = instants[key];
+        var stats = instants[key].card;
         var instantCard =
           <Card
             key={key}
             name={stats.name}
             strength={stats.strength}
             area={stats.area}
-            cost={stats.cost}
-            price={stats.price}
-            purchaseEvent={addToCart(key, stats)}
+            cost={stats.deployCost}
+            price={stats.storePrice}
+            purchaseEvent={addToCart(instants[key])}
           />
           instantsArr.push(instantCard);
       }

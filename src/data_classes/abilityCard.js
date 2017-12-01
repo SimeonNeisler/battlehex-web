@@ -1,12 +1,9 @@
 import storeCard from './storeCard';
 
 export default class abilityCard extends storeCard {
-  constructor(name, type, deployCost, storePrice, description) {
-    this.name = name;
-    this.type = type;
-    this.deployCost = deployCost;
-    this.storePrice = storePrice;
-    this.description = description;
+  constructor(name, type, deployCost, storePrice, description, action) {
+    super(name, type, deployCost, storePrice, description);
+    this.action = action;
   }
   getName() {
     return this.name;
@@ -15,13 +12,16 @@ export default class abilityCard extends storeCard {
     return this.type;
   }
   getDeployCost() {
-    return deployCost;
+    return this.deployCost;
   }
   getStorePrice() {
     return this.storePrice;
   }
   getDescription() {
     return this.description;
+  }
+  getAction() {
+    return this.action;
   }
 
   setName(newName) {
@@ -38,5 +38,8 @@ export default class abilityCard extends storeCard {
   }
   setDescription(newDescription) {
     this.description = newDescription;
+  }
+  setAction(newAction) {
+    this.action = newAction;
   }
 }

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
 
-import {fetchUser} from '../actions';
 import Landing from './login/Landing';
 import Menu from './Menu';
 import Navbar from './navbar/Navbar';
@@ -12,11 +10,7 @@ import NewCard from './store/NewCard';
 
 //<Route exact paht = "/register" component={Register} />
 //<Route exact path = "/store" component={Store} />
-class App extends Component {
-  componentDidMount() {
-    this.props.fetchUser();
-
-  }
+export default class App extends Component {
 
   render() {
     return (
@@ -36,5 +30,3 @@ class App extends Component {
     );
   }
 }
-
-export default connect(null, {fetchUser})(App);

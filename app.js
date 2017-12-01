@@ -5,6 +5,7 @@ var bodyParser = require("body-parser"),
     path       = require("path");
 
 const settings =  require("./config/settings");
+import {abilityCard, instaCard, unitCard, upgradeCard} from './src/data_classes';
 
 var app = express();
 
@@ -94,113 +95,47 @@ app.get("/store", async (req, res) => {
   var snapshot = await database.ref('/cards').once('value');
   var cards = snapshot.val();
   res.send(cards);
-
-  /*.then((snapshot) => {
-    var cards = snapshot.val();
-    res.render("store", {
-      units: cards.unit,
-      insta: cards.instant,
-      upgrades: cards.upgrade,
-      abilities: cards.abilities
-    });*/
 });
 
 app.post("/store", (req, res) => {
-  var {cardName, type, deployCost, storePrice, description, image, strength, hitpoints, range, moves, unitClass, abilities, area} = req.body.state;
-  res.send("Card submitted");
+  console.log("Card sent");
+  var {cardName, type, deployCost, storePrice, description, image, strength, hitpoints, range, moves, unitClass, abilities, area, action} = req.body.state;
+
+
   if(abilities != null) {
     var abilitiesArr = abilities.split(' ');
   } else {
     var abilitiesArr = null;
   }
+
   switch(type) {
     case "unit":
-      database.ref('cards/' + type).push().set({
-          type: type,
-          name: cardName,
-          unitClass: unitClass,
-          strength: parseInt(strength),
-          hitpoints: parseInt(hitpoints),
-          range: parseInt(range),
-          moves: parseInt(moves),
-          abilities: abilitiesArr,
-          description: description,
-          cost: parseInt(deployCost),
-          price: parseFloat(storePrice),
-          image: image
-      }, (err) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log("New Card created");
-        }
-      });
-    break;
+      var newCard = new unitCard(cardName, type, deployCost, storePrice, image, description, unitClass, strength, hitpoints, range, moves, abilitiesArr);
+      break;
     case "instant":
-      database.ref('cards/' + type).push().set({
-            type: type,
-            name: cardName,
-            strength: parseInt(strength),
-            description: description,
-            cost: parseInt(deployCost),
-            price: parseFloat(storePrice),
-            image: image,
-            area: parseInt(area)
-      }, (err) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log(typeof(strength));
-          console.log("New Card created");
-        }
-      });
-    break;
+      var newCard = new instaCard(cardName, type, deployCost, storePrice, image, description, strength, area);
+      break;
     case "upgrade":
-      database.ref('cards/' + type).push().set({
-          type: type,
-          name: cardName,
-          unitClass: unitClass,
-          strength: parseInt(strength),
-          hitpoints: parseInt(hitpoints),
-          range: parseInt(range),
-          moves: parseInt(moves),
-          abilities: abilitiesArr,
-          description: description,
-          cost: parseInt(deployCost),
-          price: parseFloat(storePrice),
-          image: image
-      }, (err) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log("New Card created");
-        }
-      });
-    break;
+      var newCard = new upgradeCard(cardName, type, deployCost, storePrice, image, description, unitClass, strength, hitpoints, range, moves, abilitiesArr);
+      break;
     case "ability":
-      database.ref('cards/' + type).push().set({
-        type: type,
-        name: cardName,
-        description: description,
-        cost: parseInt(cost),
-        price: parseFloat(price),
-        image: image
-      }, (err) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log("New Card created");
-        }
-      });
-    break;
+      var newCard = new abilityCard(cardName, type, deployCost, storePrice, image, description, action);
   }
-  res.send("Card Submitted.");
+  console.log(newCard);
+  database.ref('cards/' + type).push().set({
+    card: newCard
+  });
+  res.send("Card submitted");
 });
 
 app.post("/store/cart", (req, res) => {
   console.log(req.body);
+  database.ref('users/' + firebase.auth().currentUser.uid + '/cart').push().set({
+    card: req.body.card
+  });
   res.send("Card received");
 });
+
 
 /*app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));

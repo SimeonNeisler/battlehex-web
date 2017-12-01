@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import postCard from '../../functions/cardPost';
+//import postCard from '../../functions/cardPost';
+
+import { postCard } from '../../actions';
 import uniqueFields from './fields/uniqueFields';
 import universalFields from './fields/universalFields';
 import '../../css/newCard.css';
@@ -11,7 +13,7 @@ import '../../css/newCard.css';
 class newCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {cardName: '', type: 'false', deployCost: '', storePrice: '', description: '', image: '', strength: '', hitpoints: '', range: '', moves: '', unitClass: '', abilities: 'N/A', area: ''};
+    this.state = {cardName: '', type: 'unit', deployCost: '', storePrice: '', description: '', image: '', strength: '', hitpoints: '', range: '', moves: '', unitClass: '', abilities: 'N/A', area: ''};
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
@@ -78,12 +80,11 @@ class newCard extends Component {
           {this.renderUniversalFields()}
           {this.renderUniqueFields()}
           <button className="btn btn-lg btn-success"
-          type="submit" onClick={() =>
-            postCard(this.state, this.props.history)}>Submit</button>
+          type="submit" onClick={() => this.props.postCard(this.state, this.props.history)}>Submit</button>
         </div>
       </div>
     )
   }
 }
 
-export default connect(null, {postCard})(withRouter(newCard));
+export default connect(null, {postCard})(newCard);
