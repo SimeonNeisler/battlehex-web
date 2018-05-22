@@ -46,20 +46,8 @@
   position: relative;
 }
 
-.price {
-  margin-top: 30px;
-  height: 10%;
-  color: aliceblue;
-  position: relative;
-}
 
-.price p {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%);
-}
-
-.options {
-  padding-top: 25px;
+#price {
+  text-align: center;
+  margin: 10px 0;
 }

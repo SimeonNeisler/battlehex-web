@@ -1,7 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-export default () => {
+import { signOut } from '../../actions';
+
+const Navbar = (props) => {
   return (
     <nav className="navbar navbar-default">
       <div className="container-fluid">
@@ -17,7 +21,7 @@ export default () => {
               <Link to="/register">Sign Up</Link>
             </li>
             <li>
-              <Link to="/signout">Log out</Link>
+              <Link onClick={() => props.signOut(props.history)} to="/signout">Logout</Link>
             </li>
           </ul>
         </div>
@@ -25,3 +29,5 @@ export default () => {
     </nav>
   );
 }
+
+export default connect(null, {signOut})(withRouter(Navbar));

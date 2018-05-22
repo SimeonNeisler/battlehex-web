@@ -5,10 +5,10 @@ import { Link, withRouter } from 'react-router-dom';
 
 //import postCard from '../../functions/cardPost';
 
-import { postCard } from '../../actions';
+import { postCard } from '../../../functions';
 import uniqueFields from './fields/uniqueFields';
 import universalFields from './fields/universalFields';
-import '../../css/newCard.css';
+import '../../../css/newCard.css';
 
 class newCard extends Component {
   constructor(props) {
@@ -67,7 +67,7 @@ class newCard extends Component {
     return (
       <div style={{width:'100%'}} ref={(div) => {this.rootDiv = div}}>
           <h4>Create a New Card</h4>
-          <Link className="btn btn-default btn-arrow-left left" to="/store">Back to Store</Link>
+          <Link className="btn btn-default btn-arrow-left left" to="/app/store">Back to Store</Link>
         <div className="custom-container">
           <select id="CardType" className="form-control" name="type"
           value={this.state.value}
@@ -80,7 +80,7 @@ class newCard extends Component {
           {this.renderUniversalFields()}
           {this.renderUniqueFields()}
           <button className="btn btn-lg btn-success"
-          type="submit" onClick={() => this.props.postCard(this.state, this.props.history)}>Submit</button>
+          type="submit" onClick={() => postCard(this.state, this.props.history)}>Submit</button>
         </div>
       </div>
     )

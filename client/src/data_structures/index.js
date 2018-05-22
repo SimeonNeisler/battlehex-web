@@ -1,1 +1,1 @@
-export {default as DoublyLinkedList} from './DLL';
+export {default as SinglyLinkedList} from './SLL';

@@ -46,11 +46,6 @@ var middleWare = {
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-/*app.use('*', (req,res,next) => {
-  res.header("Access-Control-Allow-Origin", "*"); res.header("Access-Control-Allow-Credentials", "true"); res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT"); res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-  next();
-});*/
-
 //=======================
 //ROUTES
 //=======================
@@ -62,33 +57,47 @@ app.post('/auth/email', (req, res) => {
   console.log(req.body);
   firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then((user) => {
     console.log(user.uid);
-    res.send(user.uid);
+    res.send({uid: user.uid, auth: true});
   }).catch((err) => {
     if(err) {
       console.log(err);
-      res.send(err);
+      res.send({err, auth: false});
     }
   });
-});
-
-app.get('/auth/currentUser', (req, res) => {
-  const user = firebase.auth().currentUser;
-  if (user) {
-    res.send(user.uid);
-  } else {
-    res.send("Please login");
-  }
 });
 
 app.get('/auth/logout', (req, res) => {
   firebase.auth().signOut().then(() => {
     console.log("Signout successful");
-    res.send("Signed out");
+    res.send({auth: false});
   }).catch((err) => {
     console.log(err);
-    res.send("Error Occurred");
+    res.send(err);
   });
 
+});
+
+app.post('/register', (req, res) => {
+    firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
+      if(err) {
+        console.log(err);
+        res.redirect('/');
+      } else {
+        console.log("Account Created");
+      }
+    }).then(() => {
+      if(firebase.auth().currentUser) {
+        firebase.auth().currentUser.updateProfile({
+          displayName: req.body.username
+        }).then(() => {
+          database.ref('users/' + firebase.auth().currentUser.uid).set({
+            displayName: req.body.username
+          });
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
+  });
 });
 
 app.get("/store", async (req, res) => {
@@ -98,8 +107,9 @@ app.get("/store", async (req, res) => {
 });
 
 app.post("/store", (req, res) => {
+  console.log(req.body);
   console.log("Card sent");
-  var {cardName, type, deployCost, storePrice, description, image, strength, hitpoints, range, moves, unitClass, abilities, area, action} = req.body.state;
+  var {cardName, type, deployCost, storePrice, description, image, strength, hitpoints, range, moves, unitClass, abilities, area, action} = req.body.card;
 
 
   if(abilities != null) {
@@ -128,12 +138,14 @@ app.post("/store", (req, res) => {
   res.send("Card submitted");
 });
 
-app.post("/store/cart", (req, res) => {
-  console.log(req.body);
-  database.ref('users/' + firebase.auth().currentUser.uid + '/cart').push().set({
-    card: req.body.card
+
+//retool route to accept multiple cards on purchase and iteratively add them to user's deck pool
+app.post('/store/cart', (req, res) => {
+  let cards = req.body.cards;
+
+  database.ref('users/' + firebase.auth().currentUser.uid + '/deck').push().set({
+    cards
   });
-  res.send("Card received");
 });
 
 
@@ -145,29 +157,7 @@ app.post("/store/cart", (req, res) => {
   res.render("register");
 });
 
-app.post("/register", (req, res) => {
-    firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
-      if(err) {
-        console.log(err);
-        res.redirect("/");
-      } else {
-        console.log("Account Created");
-      }
-    }).then(() => {
-      if(firebase.auth().currentUser) {
-        firebase.auth().currentUser.updateProfile({
-          displayName: req.body.username
-        }).then(() => {
-          database.ref('users/' + firebase.auth().currentUser.uid).set({
-            displayName: req.body.username
-          });
-        }).catch((err) => {
-          console.log(err);
-        });
-        res.redirect("/landing");
-      }
-    });
-  });
+
 
 
 app.get("/signout", (req, res) => {

@@ -7,16 +7,38 @@
   flex-wrap: wrap;
 }
 
+#top-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+#purchase-block {
+  display: flex;
+}
+
+#cartPrice {
+  margin-left: 5px;
+  font-size: 2.0em;
+}
+
 .price-post {
   visibility: hidden;
 }
 
-.options {
-  white-space: nowrap;
-  text-align: center;
+.optionsContainer {
+  display: flex;
+  justify-content: space-around;
 }
 
-.btn-sm {
+.options {
+  display: flex;
+}
+
+.quantityButtons {
+  display: flex;
+}
+
+.amountInput {
   margin: 5px;
 }
 
@@ -33,6 +55,11 @@
   transition-property: all;
 	transition-duration: .5s;
 	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.card-container {
+  display: inline-block;
+  margin: 5px;
 }
 
 .closed {
