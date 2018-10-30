@@ -55,7 +55,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 //Login with tokens
 app.post('/auth/token', (req, res) => {
     const verified = firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then((user) => {
-
+      firebase.auth().create
     });
 });
 

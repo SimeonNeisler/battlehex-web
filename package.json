@@ -23,14 +23,13 @@
   },
   "homepage": "https://github.com/SimeonNeisler/battlehex-web#readme",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "concurrently": "^3.5.1",
-    "express": "^4.15.4",
-    "firebase": "^4.9.0",
-    "mongoose": "^5.0.3",
-    "nodemon": "^1.14.11",
+    "body-parser": "^1.18.3",
+    "concurrently": "^3.6.1",
+    "express": "^4.16.4",
+    "firebase": "^4.13.1",
+    "nodemon": "^1.18.5",
     "path": "^0.12.7",
-    "stripe": "^6.0.0"
+    "stripe": "^6.12.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
