@@ -99,3 +99,12 @@
 .right {
   float: right;
 }
+
+.stripe-btn {
+  background: rgb(50, 50, 150);
+  border: none;
+  font-size: 1.2em;
+  border-radius: 10%;
+  color: white;
+  height: 100%;
+}

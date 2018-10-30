@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../css/card.css';
+import '../../css/card.css';
 
 export default ({card}) => {
   let {type, name, unitClass, strength, hitpoints, range, moves, area, abilities, deployCost, storePrice} = card;
@@ -28,7 +28,6 @@ export default ({card}) => {
           </div>
         </div>
       );
-      break;
     case 'instant':
       return (
         <div className="card">
@@ -43,6 +42,5 @@ export default ({card}) => {
           </div>
         </div>
       );
-      break;
   }
 }

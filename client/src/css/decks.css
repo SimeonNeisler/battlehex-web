@@ -1,0 +1,47 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5%;
+}
+
+.header-left {
+  width: 33%;
+}
+
+.header-mid {
+  width: 33%;
+}
+
+.header-right {
+  width: 33%;
+}
+
+
+.dropbtn {
+  margin: 20px;
+  font-size: 1.5em;
+  text-align: left;
+  border: 0px;
+  color: white;
+  background-color: black;
+}
+
+.drop-content {
+  display: flex;
+  justify-content: flex-start;
+  overflow-x: scroll;
+  white-space: normal;
+  max-height: 500px;
+  transition-property: all;
+	transition-duration: .5s;
+	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  width: 1000px;
+}
+
+.closed {
+  max-height: 0px;
+}
+
+.card-container {
+  margin: 10px;
+}

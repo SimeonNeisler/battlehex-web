@@ -5,17 +5,17 @@ var bodyParser = require("body-parser"),
     path       = require("path");
 
 const settings =  require("./config/settings");
+const stripe = require('stripe')(settings.stripeSecretKey);
 import {abilityCard, instaCard, unitCard, upgradeCard} from './src/data_classes';
 
 var app = express();
-
-
 
 //Config settings for database
 //var config = settings;
 //Declare + initialize Database
 var firebaseApp = firebase.initializeApp(settings);
 var database = firebase.database();
+
 
 //app.use(flash());
 app.use(bodyParser.json());
@@ -52,6 +52,14 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 //Login Page
 
+//Login with tokens
+app.post('/auth/token', (req, res) => {
+    const verified = firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then((user) => {
+
+    });
+});
+
+//Login with email and password
 app.post('/auth/email', (req, res) => {
   console.log("Request Received");
   console.log(req.body);
@@ -66,6 +74,7 @@ app.post('/auth/email', (req, res) => {
   });
 });
 
+//Logout
 app.get('/auth/logout', (req, res) => {
   firebase.auth().signOut().then(() => {
     console.log("Signout successful");
@@ -77,6 +86,7 @@ app.get('/auth/logout', (req, res) => {
 
 });
 
+//Registration
 app.post('/register', (req, res) => {
     firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password).catch((err) => {
       if(err) {
@@ -100,13 +110,23 @@ app.post('/register', (req, res) => {
   });
 });
 
-app.get("/store", async (req, res) => {
-  var snapshot = await database.ref('/cards').once('value');
-  var cards = snapshot.val();
+//Retrieve store inventory (cards being sold)
+app.get('/cards', async (req, res) => {
+  let snapshot = await database.ref('/cards').once('value');
+  let cards = snapshot.val();
   res.send(cards);
 });
 
-app.post("/store", (req, res) => {
+//Retrieve cards owned by user
+app.get('/userCards', async (req, res) => {
+  let snapshot = await database.ref('users/LT8SXOBVszYSE4Q4In2q9LiOvkk2/cards').once('value');
+  let userCards = snapshot.val();
+  console.log(userCards);
+  res.send(userCards);
+});
+
+//Send a new card to the store
+app.post('/store', (req, res) => {
   console.log(req.body);
   console.log("Card sent");
   var {cardName, type, deployCost, storePrice, description, image, strength, hitpoints, range, moves, unitClass, abilities, area, action} = req.body.card;
@@ -131,7 +151,6 @@ app.post("/store", (req, res) => {
     case "ability":
       var newCard = new abilityCard(cardName, type, deployCost, storePrice, image, description, action);
   }
-  console.log(newCard);
   database.ref('cards/' + type).push().set({
     card: newCard
   });
@@ -140,11 +159,41 @@ app.post("/store", (req, res) => {
 
 
 //retool route to accept multiple cards on purchase and iteratively add them to user's deck pool
-app.post('/store/cart', (req, res) => {
-  let cards = req.body.cards;
 
-  database.ref('users/' + firebase.auth().currentUser.uid + '/deck').push().set({
-    cards
+
+app.post('/store/purchase', async (req, res) => {
+  const currentUser = firebase.auth().currentUser;
+  const charge = await stripe.charges.create({
+    amount: 500,
+    currency: 'usd',
+    description: '$5 for 5 credits',
+    source: req.body.token.id
+  });
+
+  const cart = req.body.cart;
+
+  let snapshot = await database.ref('users/' + currentUser.uid + '/cards').once('value');
+  let userCards = snapshot.val();
+  if(!userCards) {
+    userCards = {};
+  }
+
+  Object.keys(cart).map((cardTypes) => {
+    if(!userCards[cardTypes]) {
+      userCards[cardTypes] = {};
+    }
+    Object.keys(cart[cardTypes]).map((card) => {
+      if(userCards[cardTypes][card]) {
+        userCards[cardTypes][card] += cart[cardTypes][card];
+      } else {
+        userCards[cardTypes][card] = cart[cardTypes][card];
+      }
+    });
+  });
+  console.log(userCards);
+
+  database.ref('users/' + currentUser.uid).set({
+    cards: userCards
   });
 });
 

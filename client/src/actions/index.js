@@ -1,10 +1,18 @@
 import axios from 'axios';
-import { SIGN_IN, SIGN_OUT, GET_CARDS, ADD_TO_CART } from './types';
+import { SIGN_IN, SIGN_OUT, GET_CARDS } from './types';
 
-export const getCards = () => async dispatch => {
-  const cards = await axios.get('/store');
+export const getAllCards = () => async dispatch => {
+  const cards = await axios.get('/cards');
   dispatch({type: GET_CARDS, payload: cards.data});
-  return cards;
+  return cards.data;
+}
+
+export const getUserCards = () => async dispatch => {
+  console.log("Retrieving user cards");
+  const userCards = await axios.get('/userCards');
+  dispatch({type: GET_CARDS, payload: userCards.data});
+  console.log(userCards);
+  return userCards.data;
 }
 
 export const signIn = (email, password, history) => async dispatch => {

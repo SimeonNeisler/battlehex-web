@@ -7,12 +7,13 @@ Send shopping cart in post request*/
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import StripeCheckout from 'react-stripe-checkout';
 import 'bootstrap-arrow-buttons/dist/css/bootstrap-arrow-buttons.css';
 
 import '../../../css/store.css';
-import {Card, Purchase} from './index';
-import { getCards } from '../../../actions';
-import { purchaseCards } from '../../../functions';
+import Card from '../Card';
+import { getAllCards } from '../../../actions';
+import { purchase } from '../../../functions';
 
 class Store extends Component {
   constructor(props) {
@@ -20,10 +21,8 @@ class Store extends Component {
     this.state = {
       cards: {},
       cart: {
-        unit: {
-        },
-        instant: {
-        }
+        unit: {},
+        instant: {},
       },
       price: 0
     };
@@ -32,12 +31,14 @@ class Store extends Component {
     this.toggleCart = this.toggleCart.bind(this);
     this.adjustcart = this.adjustCart.bind(this);
     this.renderCard = this.renderCard.bind(this);
+    this.clearState = this.clearState.bind(this);
   }
 
   async componentDidMount() {
-    const res = await this.props.getCards();
-    const cards = res.data;
-    this.setState({cards});
+    const cards = await this.props.getAllCards();
+    console.log(cards.data);
+    this.setState({cards, price: 0});
+    console.log(this.state);
   }
 
   toggleCards() {
@@ -52,21 +53,41 @@ class Store extends Component {
     this.cartDiv.classList.toggle('closed');
   }
 
+  clearState() {
+    this.setState(prevState => ({
+      ...prevState,
+      cart: {
+        unit: {},
+        instant: {}
+      },
+      price: 0
+    }));
+  }
+
+  //Find way to store card information on keys in user basket
+
   adjustCart(key, type, cost, amount) {
-    let card = this.state.cart[type][key];
-    let newAmount = (card || 0) + amount;
+    let newAmount;
+    this.state.cart[type][key]
+    ? newAmount = this.state.cart[type][key].quantity + amount
+    : newAmount = 0;
     if(newAmount < 0) {
       newAmount = 0;
       amount = 0;
     }
     let newPrice = this.state.price += cost * amount;
+    let cardVal = this.state.cards[type][key].card;
+    let keyObj = {
+      card: cardVal,
+      quantity: newAmount
+    }
     this.setState((prevState) => {
       return {
         cart: {
           ...prevState.cart,
           [type]: {
             ...prevState.cart[type],
-            [key]: newAmount
+            [key]: keyObj
           }
         },
         price: newPrice
@@ -160,9 +181,21 @@ class Store extends Component {
             <Link className="btn btn-default btn-arrow-left left" to="/app">Back to Menu</Link>
 
             <div id="purchase-block">
-              <button className="btn btn-sm btn-success" onClick={() => {
-                purchaseCards(this.state.cart);
-              }}>Shopping Cart</button>
+              <StripeCheckout
+                name="Battle-Hex"
+                description={"$" + this.state.price + " for your shopping cart"}
+                amount={this.state.price * 10000/100}
+                token={(token) => {
+                  purchase(token, this.state.cart)
+                }}
+                stripeKey={process.env.REACT_APP_STRIPE_KEY}
+                closed={() => {
+                  this.clearState();
+                }}
+              >
+                <button className="stripe-btn">Purchase Cart</button>
+              </StripeCheckout>
+              {/*//The *100/100 below is for formatting purposes, problems with javascript arithmetic engine*/}
               <div id="cartPrice">${Math.round(this.state.price * 100)/100}</div>
             </div>
 
@@ -203,4 +236,4 @@ class Store extends Component {
   console.log(state);
 }*/
 
-export default connect(null, {getCards})(Store);
+export default connect(null, {getAllCards})(Store);
