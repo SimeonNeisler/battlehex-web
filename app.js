@@ -2,11 +2,19 @@ var bodyParser = require("body-parser"),
     express    = require("express"),
     firebase   = require("firebase"),
     //flash      = require("connect-flash"),
-    path       = require("path");
+    path       = require("path"),
+    admin      = require("firebase-admin");
 
 const settings =  require("./config/settings");
 const stripe = require('stripe')(settings.stripeSecretKey);
 import {abilityCard, instaCard, unitCard, upgradeCard} from './src/data_classes';
+
+var serviceAccount = require('config/battlehex-web-firebase-adminsdk-ca57k-d02dd26f88.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://battlehex-web.firebaseio.com'
+});
 
 var app = express();
 
