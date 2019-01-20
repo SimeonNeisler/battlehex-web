@@ -4,4 +4,4 @@ node_modules/*
 src/data/*
 #ignore sensitive information
 config/dev.js
-config/battlehex-web-firebase-adminsdk-ca57k-d02dd26f88.json
+config/battlehex-web-firebase-adminsdk-ca57k-f6f85bbbbf.json

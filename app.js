@@ -9,7 +9,7 @@ const settings =  require("./config/settings");
 const stripe = require('stripe')(settings.stripeSecretKey);
 import {abilityCard, instaCard, unitCard, upgradeCard} from './src/data_classes';
 
-var serviceAccount = require('config/battlehex-web-firebase-adminsdk-ca57k-d02dd26f88.json');
+const serviceAccount = require(settings.serviceAccountKey);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -61,10 +61,12 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 //Login Page
 
 //Login with tokens
-app.post('/auth/token', (req, res) => {
-    const verified = firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then((user) => {
-      firebase.auth().create
-    });
+app.post('/auth/token', async (req, res) => {
+    const user = await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password);
+    admin.auth().createCustomToken(user.uid).then((token) => {
+      console.log(token);
+      res.send(token);
+    }) 
 });
 
 //Login with email and password

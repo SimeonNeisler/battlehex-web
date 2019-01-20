@@ -16,12 +16,10 @@ export const getUserCards = () => async dispatch => {
 }
 
 export const signIn = (email, password, history) => async dispatch => {
-  const res = await axios.post('/auth/email', {email, password});
+  const res = await axios.post('/auth/token', {email, password});
   console.log(res.data);
   dispatch({type: SIGN_IN, auth: true, payload: res.data});
-  if(res.data.auth) {
-    history.push('/app');
-  }
+  history.push('/app');
 }
 
 export const signOut = (history) => async dispatch => {
