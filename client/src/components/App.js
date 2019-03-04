@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
 import Menu from  './app/Menu';
 import { Store, NewCard } from './app/store';
@@ -7,6 +7,16 @@ import { Decks, NewDeck } from './app/decks';
 import LoginForm from './login/LoginForm';
 import Navbar from './navbar/Navbar';
 
+const PrivateRoute = ({component: Component}) => {
+  <Route render={(props) => {
+    checkAuth === true
+    ? <Component {...props} />
+    : <Redirect to = {{
+        pathname: '/login',
+        state: {from: props.location}
+    }}/>
+  }}/>
+}
 
 export default class App extends Component {
 
@@ -25,11 +35,11 @@ export default class App extends Component {
             <Route path="/" component={Navbar} />
             <div className="custom-container">
               <Route exact path = "/" component={LoginForm} />
-              <Route exact path = "/app" component={Menu} />
-              <Route exact path = "/app/decks" component={Decks} />
-              <Route exact path = "/app/decks/newDeck" component={NewDeck} />
-              <Route exact path = "/app/store" component={Store} />
-              <Route exact path = "/app/store/newCard" component={NewCard} />
+              <PrivateRoute exact path = "/app" component={Menu} />
+              <PrivateRoute exact path = "/app/decks" component={Decks} />
+              <PrivateRoute exact path = "/app/decks/newDeck" component={NewDeck} />
+              <PrivateRoute exact path = "/app/store" component={Store} />
+              <PrivateRoute exact path = "/app/store/newCard" component={NewCard} />
             </div>
           </div>
         </BrowserRouter>

@@ -61,12 +61,17 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 //Login Page
 
 //Login with tokens
+/*
+  1. User sends credentials.
+  2. Server returns access token
+  3. Front end views access token to determine if allowed to access a route.
+  4. User sends access token when trying to access information (such as decks or games).
+  5. If access token verified back end sends information.
+*/
 app.post('/auth/token', async (req, res) => {
     const user = await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password);
-    admin.auth().createCustomToken(user.uid).then((token) => {
-      console.log(token);
-      res.send(token);
-    }) 
+    const authToken = await admin.auth().createCustomToken(user.uid);
+    console.log(authToken);
 });
 
 //Login with email and password
