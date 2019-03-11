@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import Menu from  './app/Menu';
 import { Store, NewCard } from './app/store';
 import { Decks, NewDeck } from './app/decks';
 import LoginForm from './login/LoginForm';
 import Navbar from './navbar/Navbar';
+import {PrivateRoute} from '../routes/PrivateRoute';
 
-const PrivateRoute = ({component: Component}) => {
-  <Route render={(props) => {
-    checkAuth === true
-    ? <Component {...props} />
-    : <Redirect to = {{
-        pathname: '/login',
-        state: {from: props.location}
-    }}/>
-  }}/>
-}
+
 
 export default class App extends Component {
 
