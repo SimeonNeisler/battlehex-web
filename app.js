@@ -72,6 +72,7 @@ app.post('/auth/token', async (req, res) => {
     const user = await firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password);
     const authToken = await admin.auth().createCustomToken(user.uid);
     console.log(authToken);
+    res.send({token: authToken});
 });
 
 //Login with email and password

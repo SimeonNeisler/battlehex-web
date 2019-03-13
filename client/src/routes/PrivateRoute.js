@@ -6,8 +6,8 @@ import { checkAuth } from '../functions';
 export const PrivateRoute = ({component: Component, ...rest }) => (
     <Route
         {...rest}
-        render={(props) => {
-            checkAuth 
+        render={(props) => (
+            checkAuth() 
             ? (<Component {...props} />)
             : (<Redirect 
                     to = {{
@@ -15,7 +15,7 @@ export const PrivateRoute = ({component: Component, ...rest }) => (
                         state: {from: props.location}
                     }}
                 />)
-            }
+            )
         }
     />
 );

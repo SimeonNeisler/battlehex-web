@@ -11,7 +11,7 @@ class Menu extends Component {
   }
 
   render() {
-    return(
+    return (
       <div>
         <h2>Welcome Back, Commander</h2>
 

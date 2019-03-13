@@ -1,4 +1,4 @@
 export default function checkAuth() {
-    let token  = localStorage.getItem("authToken");
+    let token  = localStorage.getItem("AuthToken");
     return true;
 }
