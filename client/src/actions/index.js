@@ -25,6 +25,7 @@ export const signIn = (email, password, history) => async dispatch => {
 
 export const signOut = (history) => async dispatch => {
   const res = await axios.get('/auth/logout');
+  localStorage.removeItem("AuthToken");
   dispatch({type: SIGN_OUT, payload: res.data});
   history.push('/');
 }
