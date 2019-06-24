@@ -14,14 +14,17 @@ const Navbar = (props) => {
         </div>
         <div className="collapse navbar-collapse">
           <ul className="nav navbar-nav navbar-right">
-            <li>
-              <Link to="/">Login</Link>
-            </li>
+            {(localStorage.getItem("AuthToken") == (null || undefined)) ?
+              <li> 
+                <Link to="/">Login</Link> 
+              </li>
+            :
+              <li>
+                <Link onClick={() => props.signOut(props.history)} to="/signout">Logout</Link>
+              </li>
+            }
             <li>
               <Link to="/register">Sign Up</Link>
-            </li>
-            <li>
-              <Link onClick={() => props.signOut(props.history)} to="/signout">Logout</Link>
             </li>
           </ul>
         </div>

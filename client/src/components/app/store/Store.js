@@ -76,9 +76,7 @@ class Store extends Component {
       amount = 0;
     }
     let newPrice = this.state.price += cost * amount;
-    let cardVal = this.state.cards[type][key].card;
     let keyObj = {
-      card: cardVal,
       quantity: newAmount
     }
     this.setState((prevState) => {
@@ -195,7 +193,7 @@ class Store extends Component {
               >
                 <button className="stripe-btn">Purchase Cart</button>
               </StripeCheckout>
-              {/*//The *100/100 below is for formatting purposes, problems with javascript arithmetic engine*/}
+              {/*The *100/100 below is for formatting purposes.*/}
               <div id="cartPrice">${Math.round(this.state.price * 100)/100}</div>
             </div>
 
