@@ -17,7 +17,6 @@ export const getUserCards = () => async dispatch => {
 
 export const signIn = (email, password, history) => async dispatch => {
   const res = await axios.post('/auth/token', {email, password});
-  console.log(res.data);
   localStorage.setItem("AuthToken", res.data.token);
   dispatch({type: SIGN_IN, payload: res.data});
   history.push('/app');

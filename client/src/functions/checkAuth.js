@@ -7,8 +7,6 @@ export default function checkAuth() {
         return false;
     } else {
         let decodedToken = jwt.decode(token);
-        console.log("Exp: " + decodedToken.exp);
-        console.log("Time: " + Date.now()/1000);
         if(decodedToken.exp < Date.now()/1000) {
             localStorage.removeItem("AuthToken");
             return false;

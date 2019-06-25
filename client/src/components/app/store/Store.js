@@ -68,9 +68,9 @@ class Store extends Component {
 
   adjustCart(key, type, cost, amount) {
     let newAmount;
-    this.state.cart[type][key]
-    ? newAmount = this.state.cart[type][key].quantity + amount
-    : newAmount = 0;
+    this.state.cart[type][key] == undefined
+    ? newAmount = amount
+    : newAmount = this.state.cart[type][key] + amount;
     if(newAmount < 0) {
       newAmount = 0;
       amount = 0;
@@ -85,7 +85,7 @@ class Store extends Component {
           ...prevState.cart,
           [type]: {
             ...prevState.cart[type],
-            [key]: keyObj
+            [key]: newAmount
           }
         },
         price: newPrice
