@@ -135,8 +135,24 @@ app.get('/cards', async (req, res) => {
 
 //Retrieve cards owned by user
 app.get('/userCards', async (req, res) => {
-  let snapshot = await database.ref('users/LT8SXOBVszYSE4Q4In2q9LiOvkk2/cards').once('value');
-  let userCards = snapshot.val();
+  let storeCardsPromise = await database.ref('/cards').once('value');
+  let storeCards = storeCardsPromise.val();
+  
+  let userCardsPromise = await database.ref('users/LT8SXOBVszYSE4Q4In2q9LiOvkk2/cards').once('value');
+  let userCardKeys = userCardsPromise.val();
+  
+  let userCards = {};
+  Object.keys(userCardKeys).forEach((type) => {
+    if(userCards[type] == undefined) {
+      userCards[type] = {}
+    }
+    Object.keys(type).forEach((id) => {
+      userCards[type][id] = {
+        quantity: userCardKeys[type][id],
+        card: storeCards[type][id].card
+      }
+    })
+  })
   console.log(userCards);
   res.send(userCards);
 });

@@ -44,7 +44,7 @@ class NewDeck extends Component {
   }
 
   removeCard() {
-
+    
   }
 
   renderPlayerCards() {

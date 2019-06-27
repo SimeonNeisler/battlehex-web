@@ -22,7 +22,7 @@ class Store extends Component {
       cards: {},
       cart: {
         unit: {},
-        instant: {},
+        instant: {}
       },
       price: 0
     };
