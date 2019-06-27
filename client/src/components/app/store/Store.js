@@ -66,7 +66,7 @@ class Store extends Component {
 
   //Find way to store card information on keys in user basket
 
-  adjustCart(key, type, cost, amount) {
+  adjustCart(key, type, card, amount) {
     let newAmount;
     this.state.cart[type][key] == undefined
     ? newAmount = amount
@@ -75,10 +75,7 @@ class Store extends Component {
       newAmount = 0;
       amount = 0;
     }
-    let newPrice = this.state.price += cost * amount;
-    let keyObj = {
-      quantity: newAmount
-    }
+    let newPrice = this.state.price += card.storePrice * amount;
     this.setState((prevState) => {
       return {
         cart: {
@@ -103,11 +100,11 @@ class Store extends Component {
             <div className="quantityButtons">
               <button className="btn btn-danger btn-sm amountInput"
                 onClick={() => {
-                  this.adjustCart(key, type, card.storePrice, -1);
+                  this.adjustCart(key, type, card, -1);
                 }}>-</button>
               <div className="cardcount amountInput">{this.state.cart[type][key]}</div>
               <button className="btn btn-success btn-sm amountInput"
-                onClick={() => {this.adjustcart(key, type, card.storePrice, 1)}}>
+                onClick={() => {this.adjustcart(key, type, card, 1)}}>
                 +
               </button>
             </div>
