@@ -25,8 +25,7 @@ class NewDeck extends Component {
     console.log(cardValues);
     this.setState({
       storeCards: cardValues[0],
-      userCards: cardValues[1],
-      deck: []
+      userCards: cardValues[1]
     });
     console.log(this.state);
   }
@@ -37,7 +36,7 @@ class NewDeck extends Component {
     this.setState((prevState) => {
       return {
         ...prevState,
-        deck: deck
+        deck
       }
     });
     console.log(this.state);

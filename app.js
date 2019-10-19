@@ -146,14 +146,13 @@ app.get('/userCards', async (req, res) => {
     if(userCards[type] == undefined) {
       userCards[type] = {}
     }
-    Object.keys(type).forEach((id) => {
-      userCards[type][id] = {
+    Object.keys(userCardKeys[type]).forEach((id) => {
+      userCards[type] = {
         quantity: userCardKeys[type][id],
         card: storeCards[type][id].card
       }
     })
   })
-  console.log(userCards);
   res.send(userCards);
 });
 
