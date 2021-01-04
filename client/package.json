@@ -4,7 +4,7 @@
   "private": false,
   "proxy": "http://localhost:5000",
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.21.1",
     "bootstrap-arrow-buttons": "^1.0.4",
     "jsonwebtoken": "^8.5.0",
     "lodash": "^4.17.11",
