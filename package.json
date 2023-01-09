@@ -27,7 +27,7 @@
     "concurrently": "^3.6.1",
     "express": "^4.16.4",
     "firebase": "^4.13.1",
-    "firebase-admin": "^6.1.0",
+    "firebase-admin": "^11.4.1",
     "nodemon": "^1.18.5",
     "path": "^0.12.7",
     "stripe": "^6.12.1"
